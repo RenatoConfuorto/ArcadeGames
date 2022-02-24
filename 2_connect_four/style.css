@@ -1,0 +1,33 @@
+:root{
+    --cell-size: 80px;
+    --gutter: 10px;
+}
+#grid{
+    width: calc((var(--cell-size) + var(--gutter)) * 7);
+    height: calc((var(--cell-size) + var(--gutter)) * 6);
+    /* border: 1px dashed #ffffff; */
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+}
+.cell{
+    border: 4px solid #ffffff;
+    border-radius: 40px;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    cursor: pointer;
+
+    color: black;
+    font-size: 15px;
+}
+
+.Nero{
+    background-color: #000000;
+}
+
+.Rosso{
+    background-color: var(--accent-color);
+}

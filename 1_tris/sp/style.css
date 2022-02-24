@@ -1,0 +1,28 @@
+:root{
+    --cell-size: 120px;
+    --gutter: 20px;
+}
+
+#grid{
+    width: calc((var(--cell-size) + var(--gutter)) * 3);
+    height: calc((var(--cell-size) + var(--gutter)) * 3);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    
+    border: 4px solid #ffffff;
+    cursor: pointer;
+    font-size: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

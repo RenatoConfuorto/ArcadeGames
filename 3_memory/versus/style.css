@@ -1,0 +1,54 @@
+:root{
+    --card-size: 90px;
+}
+
+.game-data{
+    width: 250px;
+}
+
+.current_player{
+    color: var(--accent-color);
+}
+
+#grid{
+    width: calc(var(--card-size) * 10);
+    height: calc(var(--card-size) * 6);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card{
+    height: var(--card-size);
+    width: var(--card-size);
+
+    background-image: url('../images/back.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.alien{
+    background-image: url(../images/alien.png);
+}
+
+.bug{
+    background-image: url(../images/bug.png);
+}
+
+.duck{
+    background-image: url(../images/duck.png);
+}
+
+.rocket{
+    background-image: url(../images/rocket.png);
+}
+
+.spaceship{
+    background-image: url(../images/spaceship.png);
+}
+
+.tictak{
+    background-image: url(../images/tiktac.png);
+}
