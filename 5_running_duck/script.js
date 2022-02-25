@@ -10,7 +10,14 @@ const scoreDisplay = document.getElementById('score');
 let currentScore = 0;
 scoreDisplay.innerText = currentScore;
 
+//sistema aumento livello
+const levelDisplay = document.getElementById('level');
 let speed = 200;
+let level = 1;
+levelDisplay.innerText = level;
+
+let levelUp = 5;
+
 //aggiungere la pianta
 function addPlant(){
     let currentPlantIdx = road.length - 1;
@@ -22,7 +29,21 @@ function addPlant(){
 
         if(currentPlantIdx < 0){
             clearInterval(plantIntVal);
-            currentScore++;
+            currentScore++; //aumento punteggio se la pianta non si è scontrata con la papera
+
+            //controllo aumento livello
+            if (currentScore === levelUp) {
+                levelUp = levelUp + (5 + (2 * level));
+                if (speed > 100) {
+                    speed = speed - 50;
+                }else{
+                    speed = 75;
+                }
+                level++;
+                levelDisplay.innerText = level;
+            }
+            // /controllo aumento livello
+
             scoreDisplay.innerText = currentScore;
             addPlant();
             return;
