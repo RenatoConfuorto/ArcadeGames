@@ -9,6 +9,8 @@ let speed = 800;
 let timer = 30;
 let score = 0;
 let level = 1;
+let levelUp = 15;
+
 
 timerDisplay.innerText = timer;
 scoreDisplay.innerText = score;
@@ -47,18 +49,22 @@ function removeBug(){
 for(let i = 0; i < cells.length; i++){
     const cell = cells[i];
     cell.addEventListener('click', function(){
+
+        //punteggio
+
         if(cell.classList.contains('bug')){
             score++;
             scoreDisplay.innerText = score;
-            if(score % 15 === 0){
+            if(score === levelUp){
                 level++;
                 levelDisplay.innerText = level;
                 timer = timer + 15;
+                levelUp = levelUp + (15 + level);
                 if(speed > 300){
                     speed = speed - 150;
                 }
             }
-
+            // /punteggio
             cell.classList.remove('bug');
             cell.classList.add('splat');
             setTimeout( function(){
