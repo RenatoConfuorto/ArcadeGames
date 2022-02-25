@@ -2,6 +2,10 @@
     --road-size: 60px;
 }
 
+.game-area{
+    position: relative;
+}
+
 #grid{
     width: calc(var(--road-size) * 12 );
     height: 500px;
@@ -26,7 +30,17 @@
 }
 
 .duck{
+    width: var(--road-size);
+    height: var(--road-size);
+
     background-image: url('images/duck.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    position: absolute;
+    bottom: 12px;  /*padding della game-area (controllare common/style.css*/
+    left: var(--road-size);
 
     transition: transform 0.3s;
 }
