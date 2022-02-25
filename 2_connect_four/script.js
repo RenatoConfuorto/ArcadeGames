@@ -7,7 +7,7 @@ const cells = [];
 const cellColors = [];
 let turn = 0;
 
-
+//creazione celle
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
     cell.classList.add('cell');
@@ -15,7 +15,11 @@ for(let i = 0; i < RxC; i++){
     grid.appendChild(cell)
     cells[i]=cell;
 }
-
+//aggiungere il cursor pointer alla prima riga di caselle
+for(let i = 0; i < width; i++){
+    cells[i].classList.add('clickable');
+}
+//Event Listener, click sulle celle
 for(let i = 0; i < width; i++){
     const cell = cells[i];
     cell.addEventListener('click', function(){
@@ -33,7 +37,7 @@ for(let i = 0; i < width; i++){
 
         turn++;
         let color;
-
+        //alternanza colori
         if(turn % 2 === 0){
             color = 'Rosso';
         }else{

@@ -18,10 +18,13 @@
     border-radius: 40px;
     width: var(--cell-size);
     height: var(--cell-size);
-    cursor: pointer;
 
     color: black;
     font-size: 15px;
+}
+
+.clickable{
+    cursor: pointer;
 }
 
 .Nero{
