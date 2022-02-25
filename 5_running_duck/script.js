@@ -3,8 +3,12 @@ const road = document.querySelectorAll('#grid > div');
 // posizionare la papera
 const duckIdx = 1;  //la papera si trava sopra road[1]
 const duck = document.getElementById('c_h');
-// duck.classList.add('duck');
 // /posizionare la papera
+
+//sistema di punteggio
+const scoreDisplay = document.getElementById('score');
+let currentScore = 0;
+scoreDisplay.innerText = currentScore;
 
 let speed = 200;
 //aggiungere la pianta
@@ -18,6 +22,8 @@ function addPlant(){
 
         if(currentPlantIdx < 0){
             clearInterval(plantIntVal);
+            currentScore++;
+            scoreDisplay.innerText = currentScore;
             addPlant();
             return;
         }
