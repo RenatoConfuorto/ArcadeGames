@@ -64,7 +64,23 @@ function addPlant(){
     }, speed)
 }
 
-addPlant();
+//partenza ritardata del gioco
+const timerDisplay = document.getElementById('timer');
+let time = 5;
+timerDisplay.innerText = time;
+const countDown = document.querySelector('.count-down');
+
+const startGame = setInterval(function(){
+    time--;
+    timerDisplay.innerText = time;
+
+    if(time === 0){
+        clearInterval(startGame);
+        countDown.style.display = 'none';
+        addPlant();
+    }
+}, 1000)
+
 // /aggiungere la pianta
 
 //salto della papera
