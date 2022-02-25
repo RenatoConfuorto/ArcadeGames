@@ -21,14 +21,14 @@
     background-position: center;
 }
 
+.plant{
+    background-image: url('images/plant.png');
+}
+
 .duck{
     background-image: url('images/duck.png');
 
     transition: transform 0.3s;
-}
-
-.plant{
-    background-image: url('images/plant.png');
 }
 
 .jump{
