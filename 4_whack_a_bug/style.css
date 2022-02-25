@@ -34,3 +34,7 @@
     background-image: url(bug-splat.png);
 
 }
+
+.ten-seconds-left{
+    color: red;
+}

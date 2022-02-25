@@ -71,6 +71,12 @@ for(let i = 0; i < cells.length; i++){
 //Timer
 function countDown(){
     timer--;
+
+    if(timer <= 10){ //il timer diventa rosso sotto i dieci secondi
+        timerDisplay.classList.add('ten-seconds-left');
+    }else if(timer > 10 && timerDisplay.classList.contains('ten-seconds-left')){
+        timerDisplay.classList.remove('ten-seconds-left');
+    }
     timerDisplay.innerText = timer;
 
     if(timer === 0){
