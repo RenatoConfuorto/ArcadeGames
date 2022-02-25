@@ -1,9 +1,10 @@
 const road = document.querySelectorAll('#grid > div');
 
-//posizionare la papera
+// posizionare la papera
 const duckIdx = 1;
 const duck = road[duckIdx];
 duck.classList.add('duck');
+// /posizionare la papera7
 
 let speed = 200;
 //aggiungere la pianta
@@ -28,3 +29,19 @@ function addPlant(){
 }
 
 addPlant();
+// /aggiungere la pianta
+
+//salto della papera
+function jump(event){
+    if(event.code === 'Space' && !event.repeat){
+        // console.log('Salto');
+        duck.classList.add('jump');
+        setTimeout(function(){
+            duck.classList.remove('jump');
+        }, 300)
+    }
+    
+}
+
+document.addEventListener('keydown', jump);
+// /salto della papera
