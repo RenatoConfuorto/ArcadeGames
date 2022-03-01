@@ -7,6 +7,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+@font-face{
+    font-family: 'Press Start 2P';
+    src: url("../common/font/PressStart2P-Regular.ttf");
+}
 
 body{
     background-color: var(--bg-color);
