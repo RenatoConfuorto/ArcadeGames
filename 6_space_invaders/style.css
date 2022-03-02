@@ -1,0 +1,20 @@
+:root{
+    --cell-size: 40px;
+    --grid-size: 15;
+}
+
+#grid{
+    width: calc(var(--cell-size) * var(--grid-size));
+    height: calc(var(--cell-size) * var(--grid-size));
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid white;
+    font-size: 8px;
+}
