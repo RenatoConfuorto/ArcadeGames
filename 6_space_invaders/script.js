@@ -73,4 +73,21 @@ drawAliens();
 // NAVICELLA
 let spaceshipIdx = RxC - Math.floor(width/2) - 1;
 cells[spaceshipIdx].classList.add('spaceship');
+//movimento navicella
+function moveSpaceship(event){
+    const leftEdge = spaceshipIdx % width === 0;
+    const rightEdge = spaceshipIdx % width === width - 1;
+    cells[spaceshipIdx].classList.remove('spaceship');
+    console.log(event);
+    if(event.code === 'ArrowLeft' && !leftEdge){
+        //mi muovo a sinistra
+        spaceshipIdx--;
+    }else if(event.code === 'ArrowRight' && !rightEdge){
+        //mi muovo a destra
+        spaceshipIdx++;
+    }
+    cells[spaceshipIdx].classList.add('spaceship');
+}
+
+document.addEventListener('keydown',moveSpaceship);
 

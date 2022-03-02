@@ -1,11 +1,12 @@
 :root{
     --cell-size: 40px;
-    --grid-size: 15;
+    --grid-width: 15;
+    --grid-height: 15;
 }
 
 #grid{
-    width: calc(var(--cell-size) * var(--grid-size));
-    height: calc(var(--cell-size) * var(--grid-size));
+    width: calc(var(--cell-size) * var(--grid-width));
+    height: calc(var(--cell-size) * var(--grid-height));
 
     display: flex;
     flex-direction: row;
