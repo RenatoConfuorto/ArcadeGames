@@ -17,4 +17,24 @@
     height: var(--cell-size);
     border: 1px solid white;
     font-size: 8px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.spaceship{
+    background-image: url('img/spaceship.png');
+}
+
+.alien{
+    background-image: url('img/alien.png');
+}
+
+.boom{
+    background-image: url('img/boom.png');
+}
+
+.laser{
+    background-image: url('img/laser.png');
 }
