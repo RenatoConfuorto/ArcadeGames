@@ -11,6 +11,9 @@ let step = 1;
 let direction = 'forward';
 const speed = 500;
 
+let aliensKilled = [];
+let laserSpeed = 150;
+
 //stampare le celle
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
@@ -68,7 +71,7 @@ function moveAliens(){
 }
 
 drawAliens();
-// setInterval(moveAliens, speed);
+setInterval(moveAliens, speed);
 
 // NAVICELLA
 let spaceshipIdx = RxC - Math.floor(width/2) - 1;
@@ -78,7 +81,7 @@ function moveSpaceship(event){
     const leftEdge = spaceshipIdx % width === 0;
     const rightEdge = spaceshipIdx % width === width - 1;
     cells[spaceshipIdx].classList.remove('spaceship');
-    console.log(event);
+    // console.log(event);
     if(event.code === 'ArrowLeft' && !leftEdge){
         //mi muovo a sinistra
         spaceshipIdx--;
@@ -89,5 +92,44 @@ function moveSpaceship(event){
     cells[spaceshipIdx].classList.add('spaceship');
 }
 
+//SPARO
 document.addEventListener('keydown',moveSpaceship);
+
+function shoot(event){
+    if(event.code !=='Space')return;
+    //punto partenza del laser
+    let laserIdx = spaceshipIdx;
+    let laserIntv;
+    function moveLaser(){
+        cells[laserIdx].classList.remove('laser');
+        laserIdx = laserIdx - width;
+        if(laserIdx < 0){
+            clearInterval(laserIntv);
+            return;
+        }
+        //controllare se abbiamo colpito l'alieno
+        if(cells[laserIdx].classList.contains('alien')){
+            //abbiamo colpito l'alieno
+            clearInterval(laserIntv);
+
+            //ripulire la cella
+            cells[laserIdx].classList.remove('alien', 'laser');
+            cells[laserIdx].classList.add('boom');
+            setTimeout(function(){
+                cells[laserIdx].classList.remove('boom');
+            }, 200);
+
+            //salviamo quali alieni abbiamo ucciso
+            const killed = aliens.indexOf(laserIdx);
+            aliensKilled.push = killed;
+
+            return;
+        }
+        cells[laserIdx].classList.add('laser');
+    }
+
+    laserIntv =  setInterval(moveLaser, laserSpeed);
+}
+
+document.addEventListener('keydown', shoot);
 
