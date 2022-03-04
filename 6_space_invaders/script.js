@@ -1,4 +1,5 @@
 const grid = document.getElementById('grid');
+const scoreDisplay = document.getElementById('score');
 const cells = [];
 
 const width = 15;
@@ -10,8 +11,11 @@ aliens = [0, 1, 2, 3, 4, 5]
 let step = 1;
 let direction = 'forward';
 const speed = 500;
+let score = 0;
+scoreDisplay.innerText = score;
 
-let aliensKilled = [];
+const aliensKilled = [];
+let aliensMoveIntv = null;
 let laserSpeed = 150;
 
 //stampare le celle
@@ -22,11 +26,30 @@ for(let i = 0; i < RxC; i++){
     cells.push(cell);
     grid.appendChild(cell);
 }
+//controllare se hanno vinto gli umani
+function checkForHumanWin(){
+    if(aliensKilled.length === aliens.length){
+        clearInterval(aliensMoveIntv);
+        showAlert('Human Wins');
+    }
+}
+
+//controllare se hanno vinto gli alieni
+function checkForAlienWin(){
+    for(let i = 0; i < aliens.length; i++){
+        if(!aliensKilled.includes(aliens[i]) && aliens[i] === spaceshipIdx){
+            clearInterval(aliensMoveIntv);
+            showAlert('Aliens Win');
+        }
+    }
+}
 
 //MOVIMENTO ALIENI
 function drawAliens(){
     for(let i = 0; i < aliens.length; i++){
-        cells[aliens[i]].classList.add('alien');
+        if(!aliensKilled.includes(i)){
+            cells[aliens[i]].classList.add('alien');
+        }
     }
 }
 
@@ -66,12 +89,13 @@ function moveAliens(){
     for(let i = 0; i < aliens.length; i++){
         aliens[i] = aliens[i] + step;
     }
-
+    checkForAlienWin();
     drawAliens();
 }
 
 drawAliens();
-setInterval(moveAliens, speed);
+
+aliensMoveIntv = setInterval(moveAliens, speed);
 
 // NAVICELLA
 let spaceshipIdx = RxC - Math.floor(width/2) - 1;
@@ -99,7 +123,7 @@ function shoot(event){
     if(event.code !=='Space')return;
     //punto partenza del laser
     let laserIdx = spaceshipIdx;
-    let laserIntv;
+    let laserIntv = null;
     function moveLaser(){
         cells[laserIdx].classList.remove('laser');
         laserIdx = laserIdx - width;
@@ -121,8 +145,12 @@ function shoot(event){
 
             //salviamo quali alieni abbiamo ucciso
             const killed = aliens.indexOf(laserIdx);
-            aliensKilled.push = killed;
+            aliensKilled.push(killed);
 
+            //+1 punto
+            score++;
+            scoreDisplay.innerText = score;
+            checkForHumanWin();
             return;
         }
         cells[laserIdx].classList.add('laser');
