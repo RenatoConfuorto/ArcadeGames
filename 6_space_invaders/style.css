@@ -1,13 +1,14 @@
 :root{
     --cell-size: 39px;
-    --grid-width: 15;
+    --grid-width: 21;
     --grid-height: 15;
 }
 
 #grid{
-    width: calc(var(--cell-size) * var(--grid-width));
-    height: calc(var(--cell-size) * var(--grid-height));
+    width: calc(var(--cell-size) * var(--grid-width) + 4px);
+    height: calc(var(--cell-size) * var(--grid-height) + 4px);
 
+    border: 2px solid white;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -16,7 +17,7 @@
 .cell{
     width: var(--cell-size);
     height: var(--cell-size);
-    border: 1px solid white;
+    /* border: 1px solid white; */
     font-size: 8px;
 
     background-size: contain;
