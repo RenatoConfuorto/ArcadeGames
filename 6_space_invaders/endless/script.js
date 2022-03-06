@@ -7,10 +7,11 @@ const RxC = width * height;
 const grid = document.getElementById('grid');
 const scoreDisplay = document.getElementById('score');
 const waweDisplay = document.getElementById('wawe');
+const timerDisplay = document.getElementById('timer');
+
 // array 
 const cells = [];
-let aliens = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] //indici i partenzad alieni 
-let aliensKilled = [];
+let aliens = [0, 1, 2, 3, 4] //indici i partenzad alieni 
 
 // movimento alieni 
 let step = 1;
@@ -19,9 +20,13 @@ let speed = 500;
 //punti
 let score = 0;
 scoreDisplay.innerText = score;
-//livello
+//ondata
 let wawe = 1;
-waweDisplay.innerText = wawe + '/10';
+waweDisplay.innerText = wawe;
+//tempo ondata
+let timer = 5;
+timerDisplay.innerText = timer;
+
 
 let aliensMoveIntv = null;
 let laserSpeed = 150;
@@ -34,142 +39,55 @@ for(let i = 0; i < RxC; i++){
     cells.push(cell);
     grid.appendChild(cell);
 }
-//controllare l'aumetno di livello
-function levelUp(){
-    wawe++;
-    if(wawe === 11){ //Gli umani vincono
-        showAlert('Human Wins');
-        return;
-    }
-    waweDisplay.innerText = wawe + '/10';
-    aliensKilled = []; //svuotare aliensKilled
-    aliens = []; //svuotare aliens
-    switch(wawe){
-        //livello 2
-        case 2:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-            ]; //impostare gli alieni
-            speed = 500; //impostare la velocità degli alieni
-            laserSpeed = 150; //impostare la velocità del laser
-            break;
-        //livello 3
-        case 3:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
-            ];
-            speed = 450;
-            laserSpeed = 150; 
-            break;
-        //livello 4
-        case 4:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
-            speed = 450;
-            laserSpeed = 150; 
-            break;
-        //livello 5
-        case 5:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
-                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75
-            ];
-            speed = 450;
-            laserSpeed = 150; 
-            break;
-        //livello 6
-        case 6:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
-            ];
-            speed = 350;
-            laserSpeed = 150; 
-            break;
-        //livello 7
-        case 7:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
-            speed = 350;
-            laserSpeed = 150; 
-            break;
-        //livello 8
-        case 8:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
-            speed = 350;
-            laserSpeed = 250; 
-            break;
-        //livello 9
-        case 9:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
-            speed = 300;
-            laserSpeed = 250; 
-            break;
-            //livello 10
-        case 10:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
-                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76
-            ];
-            speed = 300;
-            laserSpeed = 300; 
-            break;
-    }
-
-    drawAliens();
-    aliensMoveIntv = setInterval(moveAliens, speed);
-
-    console.log('Level Up');
-}
 
 
-//controllare se hanno vinto gli umani
-function checkForLevelUp(){
-    if(aliensKilled.length === aliens.length){
-        clearInterval(aliensMoveIntv);
-        levelUp();
-    }
-}
-
-
+//PROVARE A CONTROLLARE SE LA CELLA CONTIENE LA CLASSE ALIEN E SPACESHIP CONTEMPORANEAMENTE
 //controllare se hanno vinto gli alieni
 function checkForAlienWin(){
     for(let i = 0; i < aliens.length; i++){
-        if(!aliensKilled.includes(aliens[i]) && aliens[i] === spaceshipIdx){
+        if(aliens[i] === spaceshipIdx){
             clearInterval(aliensMoveIntv);
-            showAlert('Aliens Win');
+            clearInterval(timerIntv);
+            showAlert(`Game Over! Punti: ${score}`);
         }
     }
 }
+//SPAWN ALIENI
+//funzione del timer
+function timerSpawn(){
+    timer--;
+    timerDisplay.innerText = timer;
+    if(timer === 0){
+        wawe++;
+        waweDisplay.innerText = wawe;
+        timer = 5;
+        timerDisplay.innerText = timer;
+        if(speed > 100){
+            speed = speed - 20;
+        }else if(speed === 100 && laserSpeed > 200){
+            laserSpeed = leserSpeed -50;
+        }
+        spawnAliens();
+        clearInterval(aliensMoveIntv);
+        aliensMoveIntv = setInterval(moveAliens, speed);
+
+    }
+}
+//spawn degli alieni
+function spawnAliens(){
+    // console.log('Alieni in arrivo');
+    const newAliens = (wawe * 2) + 5;
+    for(let i = 0; i < newAliens; i++){
+        aliens.push(i);
+    }
+}
+
+timerIntv = setInterval(timerSpawn, 1000);
 
 //MOVIMENTO ALIENI
 function drawAliens(){
     for(let i = 0; i < aliens.length; i++){
-        if(!aliensKilled.includes(i)){
-            cells[aliens[i]].classList.add('alien');
-        }
+        cells[aliens[i]].classList.add('alien');
     }
 }
 
@@ -181,8 +99,9 @@ function removeAlien(){
 
 function moveAliens(){
     removeAlien();
+    /*
     const leftEdge = aliens[0] % width === 0;
-    const rightEdge = aliens[aliens.length - 1] % width === width - 1;
+    const rightEdge = aliens[aliens.length - 1] % width === width - 1; 
     //arrivato al bordo destro
     if(direction === 'forward' && rightEdge){
         //cambiare direzione
@@ -205,7 +124,7 @@ function moveAliens(){
             aliens[i] = aliens[i] + width - 1;
         }
     }
-
+    */ 
     for(let i = 0; i < aliens.length; i++){
         aliens[i] = aliens[i] + step;
     }
@@ -216,6 +135,7 @@ function moveAliens(){
 drawAliens();
 
 aliensMoveIntv = setInterval(moveAliens, speed);
+
 
 // NAVICELLA
 let spaceshipIdx = RxC - Math.floor(width/2) - 1;
@@ -241,10 +161,11 @@ document.addEventListener('keydown',moveSpaceship);
 
 function shoot(event){
     if(event.code !=='Space')return;
+    if(event.repeat)return;
     //punto partenza del laser
     let laserIdx = spaceshipIdx;
     let laserIntv = null;
-
+    // console.log(event);
     function moveLaser(){
         cells[laserIdx].classList.remove('laser');
         laserIdx = laserIdx - width;
@@ -265,14 +186,13 @@ function shoot(event){
                 cells[laserIdx].classList.remove('boom');
             }, 200);
 
-            //salviamo quali alieni abbiamo ucciso
+            //rimuovere l'alieno dall'array aliens
             const killed = aliens.indexOf(laserIdx);
-            aliensKilled.push(killed);
+            aliens.splice(killed, 1);
 
             //+1 punto
             score++;
             scoreDisplay.innerText = score;
-            checkForLevelUp();
             return;
         }
         cells[laserIdx].classList.add('laser');
@@ -282,38 +202,3 @@ function shoot(event){
 }
 
 document.addEventListener('keydown', shoot);
-
-
-
-/*
-impostare vuoto l array aliens
-impostare un livello 
-10 livelli
-provare a impostare le caratteristiche dei vari livelli con uno switch
-creare una funzione checkLevel() da sostituire a checkForHumanWin()
-
-COME FARE IL PASSAGGIO DI LIVELLO
-aumentare il livello (wawe++)
-usare un if per contrallare che non sia finito il livello 10
-salvare lo switch in una funzione
-function levelUp(){
-    switch
-
-    levelDisplay.innerText = wawe
-    drawAliens()
-}
-
-impostare un else{
-    showAlert('Human Wins')
-}
-
-checkLevel(){
-    clearInterval(alienMovIntv);
-    wawe++;
-    if(wawe <= 10){
-        levelUp();
-    }else{
-        showAlert('HumanWin');
-    }
-}
-*/
