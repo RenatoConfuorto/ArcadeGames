@@ -10,11 +10,15 @@ const RxC = width * height;
 const cells = [];
 let aliens = [0, 1, 2, 3];
 
+//punti, munizioni e livello
+let level = 0;
+
 //movimento degli alieni
 let step = 1;
 let direction = 'forward';
 let speed = 500;
 
+//movimento laser e navicella
 let spaceShipIdx = RxC - Math.floor(width/2) - 1;
 let laserSpeed = 150;
 let aliensMoveIntv = null;
@@ -72,6 +76,104 @@ drawAliens();
 
 aliensMoveIntv = setInterval(moveAliens, speed);
 
+function addAliens(){
+    aliens = [];
+    level++;
+
+    if(level === 11){ //si ripete l'ultimo livello
+        level = 10;
+        return;
+    }
+    
+    switch(level){
+        //livello 1
+        case 1:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6,
+                21, 22, 23, 24, 25, 26, 27
+            ]; //impostare gli alieni
+            break;
+        //livello 2
+        case 2:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+            ]; //impostare gli alieni
+            break;
+        //livello 3
+        case 3:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
+            ];
+            break;
+        //livello 4
+        case 4:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
+            ];
+            break;
+        //livello 5
+        case 5:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75
+            ];
+            break;
+        //livello 6
+        case 6:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
+            ];
+            break;
+        //livello 7
+        case 7:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
+            ];
+            break;
+        //livello 8
+        case 8:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
+            ];
+            break;
+        //livello 9
+        case 9:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
+            ];
+            break;
+            //livello 10
+        case 10:
+            aliens = [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76
+            ];
+            break;
+    }
+
+    drawAliens();
+    aliensMoveIntv = setInterval(moveAliens, speed);
+
+    console.log('Level Up');
+}
+
 //NAVICELLA
 
 cells[spaceShipIdx].classList.add('spaceship');
@@ -126,6 +228,12 @@ function shoot(event){
             //rimuovere l'alieno dall'array
             const killed = aliens.indexOf(laserIdx);
             aliens.splice(killed, 1);
+
+            //controllare se sono finiti gli alieni
+            if(aliens.length === 0){
+                clearInterval(aliensMoveIntv);
+                addAliens();
+            }
 
             return;
         }
