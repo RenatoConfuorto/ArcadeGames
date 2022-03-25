@@ -1,0 +1,39 @@
+:root{
+    --grid-width: 15;
+    --grid-height: 15;
+    --cell-size: 40px;
+}
+
+#grid{
+    width: calc(var(--grid-width) * var(--cell-size) + 4px);
+    height: calc(var(--grid-height) * var(--cell-size) + 4px);
+    border: 2px solid white;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px dashed black;
+    font-size : 8px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.spaceship{
+    background-image: url('img/spaceship.png');
+}
+.alien{
+    background-image: url('img/alien.png');
+}
+.laser{
+    background-image: url('img/laser.png');
+}
+.boom{
+    background-image: url('img/boom.png');
+}

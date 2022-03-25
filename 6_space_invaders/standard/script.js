@@ -241,6 +241,7 @@ document.addEventListener('keydown',moveSpaceship);
 
 function shoot(event){
     if(event.code !=='Space')return;
+    if(event.repeat)return;
     //punto partenza del laser
     let laserIdx = spaceshipIdx;
     let laserIntv = null;
