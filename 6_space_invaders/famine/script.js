@@ -16,6 +16,9 @@ let direction = 'forward';
 let speed = 500;
 
 let spaceShipIdx = RxC - Math.floor(width/2) - 1;
+let laserSpeed = 150;
+let aliensMoveIntv = null;
+
 
 //stampare le celle
 for(let i = 0; i < RxC; i++){
@@ -67,7 +70,7 @@ function moveAliens(){
 
 drawAliens();
 
-aliensMoveint = setInterval(moveAliens, speed);
+aliensMoveIntv = setInterval(moveAliens, speed);
 
 //NAVICELLA
 
@@ -75,7 +78,7 @@ cells[spaceShipIdx].classList.add('spaceship');
 
 //movimento navicella
 function moveSpaceship(event){
-    console.log('mosso');
+    // console.log(event);
     const rightEdge = spaceShipIdx % width === width - 1;
     const leftEdge = spaceShipIdx % width === 0;
     cells[spaceShipIdx].classList.remove('spaceship');
@@ -90,3 +93,46 @@ function moveSpaceship(event){
 }
 
 document.addEventListener('keydown', moveSpaceship);
+
+//SPARO
+function shoot(event){
+    if(event.code !== 'Space')return;
+    if(event.repeat)return; 
+    console.log('sparo');
+
+    let laserIdx = spaceShipIdx;
+    let laserIntv = null;
+
+    function moveLaser(){
+        cells[laserIdx].classList.remove('laser');
+        laserIdx = laserIdx - width;
+        //il laser esce dalla griglia
+        if(laserIdx < 0){
+            clearInterval(laserIntv)
+            return;
+        }
+        //controllare se abbiamo colpito l'alieno
+        if(cells[laserIdx].classList.contains('alien')){
+            //abbiamo colpito l'alieno
+            clearInterval(laserIntv);
+
+            //ripulire la cella ed esplosione
+            cells[laserIdx].classList.remove('alien', 'laser');
+            cells[laserIdx].classList.add('boom');
+            setTimeout(function(){
+                cells[laserIdx].classList.remove('boom');
+            }, 200);
+
+            //rimuovere l'alieno dall'array
+            const killed = aliens.indexOf(laserIdx);
+            aliens.splice(killed, 1);
+
+            return;
+        }
+        cells[laserIdx].classList.add('laser');
+    }
+
+    laserIntv = setInterval(moveLaser, laserSpeed);
+}
+
+document.addEventListener('keydown', shoot);
