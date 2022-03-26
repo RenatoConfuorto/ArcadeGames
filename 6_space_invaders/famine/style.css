@@ -1,5 +1,5 @@
 :root{
-    --grid-width: 15;
+    --grid-width: 21;
     --grid-height: 15;
     --cell-size: 40px;
 }
@@ -23,6 +23,10 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.red-span{
+    color: red;
 }
 
 .spaceship{

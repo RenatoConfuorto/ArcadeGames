@@ -1,9 +1,9 @@
 // ELEMENTI DEL DOM 
 const grid = document.getElementById('grid');
-const scoreDisaply = document.getElementById('score');
-const ammoDisaply = document.getElementById('ammo');
+const scoreDisplay = document.getElementById('score');
+const ammoDisplay = document.getElementById('ammo');
 //DIMENSIONI GRIGLIA
-const width = 15;
+const width = 21;
 const height = 15;
 const RxC = width * height;
 //ARRAY
@@ -22,6 +22,11 @@ let speed = 500;
 let spaceShipIdx = RxC - Math.floor(width/2) - 1;
 let laserSpeed = 150;
 let aliensMoveIntv = null;
+
+//munizioni
+let ammo = 10;
+ammoDisplay.innerText = ammo;
+let timeOut = (laserSpeed * height) + 3000;
 
 
 //stampare le celle
@@ -78,6 +83,8 @@ aliensMoveIntv = setInterval(moveAliens, speed);
 
 function addAliens(){
     aliens = [];
+    direction = 'forward';
+    step = 1;
     level++;
 
     if(level === 11){ //si ripete l'ultimo livello
@@ -200,10 +207,33 @@ document.addEventListener('keydown', moveSpaceship);
 function shoot(event){
     if(event.code !== 'Space')return;
     if(event.repeat)return; 
+    //non far partire un altro setTimeout se le munizioni sono a 0
+    if(ammo === 0)return;
     console.log('sparo');
 
     let laserIdx = spaceShipIdx;
     let laserIntv = null;
+
+    //uso munizioni
+    ammo--;
+    //display rosso se le munizioni sono basse
+    if(ammo < 100){
+        ammoDisplay.classList.add('red-span');
+    }else if(
+        ammo > 100 &&
+        ammoDisplay.classList.contains('red-span')
+    ){
+        ammoDisplay.classList.remove('red-span');
+    }
+    ammoDisplay.innerText = ammo;
+    //bloccare il gioco se finiscono le munizioni
+    if(ammo === 0){
+        setTimeout(function(){
+            showAlert('Out of ammo');
+        }, 5000);
+        return;
+    }
+
 
     function moveLaser(){
         cells[laserIdx].classList.remove('laser');
@@ -232,6 +262,7 @@ function shoot(event){
             //controllare se sono finiti gli alieni
             if(aliens.length === 0){
                 clearInterval(aliensMoveIntv);
+                
                 addAliens();
             }
 
