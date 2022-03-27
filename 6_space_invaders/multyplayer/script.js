@@ -26,7 +26,7 @@ let speed = 500;
 
 //livello
 let level = 1;
-levelDisplay.innerText = level + '/10';
+levelDisplay.innerText = level + '/15';
 
 //stampare le celle
 for(let i = 0; i < RxC; i++){
@@ -40,11 +40,11 @@ for(let i = 0; i < RxC; i++){
 //controllare l'aumento di livello
 function levelUp(){
     level++;
-    if(level === 11){ //Gli umani vincono
+    if(level === 16){ //Gli umani vincono
         showAlert('Humans Wins');
         return;
     }
-    levelDisplay.innerText = level + '/10';
+    levelDisplay.innerText = level + '/15';
     aliensKilled = []; //svuotare aliensKilled
     aliens = []; //svuotare aliens
 
@@ -55,6 +55,7 @@ const row4 = width * 3;
 const row5 = width * 4;
 const row6 = width * 5;
 const row7 = width * 6;
+const row8 = width * 7;
 
     switch(level){
         //livello 2
@@ -68,85 +69,162 @@ const row7 = width * 6;
             break;
         //livello 3
         case 3:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
-            ];
+            for(let i = 0; i < 14; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+            }
             speed = 450;
             laserSpeed = 150; 
             break;
         //livello 4
         case 4:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
+            for(let i = 0; i < 14; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+            }
             speed = 450;
             laserSpeed = 150; 
             break;
         //livello 5
         case 5:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
-                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75
-            ];
+            for(let i = 0; i < 15; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+            }
             speed = 450;
             laserSpeed = 150; 
             break;
         //livello 6
         case 6:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
-            ];
+            for(let i = 0; i < 15; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+            }
             speed = 350;
             laserSpeed = 150; 
             break;
         //livello 7
         case 7:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
+            for(let i = 0; i < 15; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+                aliens.push(row7 + i);
+            }
             speed = 350;
             laserSpeed = 150; 
             break;
         //livello 8
         case 8:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+            }
             speed = 350;
             laserSpeed = 250; 
             break;
         //livello 9
         case 9:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
-            ];
-            speed = 300;
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+            }
+            speed = 350;
             laserSpeed = 250; 
             break;
             //livello 10
         case 10:
-            aliens = [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-                42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
-                63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76
-            ];
-            speed = 300;
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+            }
+            speed = 350;
             laserSpeed = 300; 
+            break;
+            
+        case 11:
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+            }
+            speed = 350;
+            break;
+
+        case 12:
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+                aliens.push(row7 + i);
+            }
+            speed = 350;
+            break;
+
+        case 13:
+            for(let i = 0; i < 18; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+                aliens.push(row7 + i);
+            }
+            speed = 350;
+            laserSpeed = 350;
+            break;
+
+        case 14:
+            for(let i = 0; i < 19; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+                aliens.push(row7 + i);
+            }
+            speed = 350;
+            break;
+
+        case 15:
+            for(let i = 0; i < 19; i++){
+                aliens.push(i);
+                aliens.push(row2 + i);
+                aliens.push(row3 + i);
+                aliens.push(row4 + i);
+                aliens.push(row5 + i);
+                aliens.push(row6 + i);
+                aliens.push(row7 + i);
+                aliens.push(row8 + i);
+            }
+            speed = 350;
             break;
     }
 
