@@ -1,7 +1,7 @@
 //ELEMENTI DEL DOM
 const grid = document.getElementById('grid');
-const health1 = document.getElementById('health1');
-const health2 = document.getElementById('health2');
+const health1Display = document.getElementById('health1');
+const health2Display = document.getElementById('health2');
 const bonus1Display = document.getElementById('bonus1');
 const bonus2Display = document.getElementById('bonus2');
 
@@ -17,6 +17,12 @@ const RxC = width * height;
 let laserSpeed = 150;
 let whiteSpaceshipIdx = RxC - Math.floor(width/2) - 1;
 let redSpaceshipIdx = Math.floor(width/2);
+
+//salute giocatori
+let health1 = 100;
+let health2 = 100;
+health1Display.innerText = health1;
+health2Display.innerText = health2;
 
 //stampare le celle
 for(let i = 0; i < RxC; i++){
@@ -68,6 +74,7 @@ function moveRedSpaceship(event){
 addEventListener('keydown', moveRedSpaceship);
 
 //SPARO
+
 //sparo navicella bianca laser verde
 function greenShoot(event){
     if(event.code !=='ShiftRight')return;
@@ -99,6 +106,22 @@ function greenShoot(event){
 
 
             return;
+        }else if(cells[greenLaserIdx].classList.contains('red-spaceship')){
+            //abbiamo colpito l'avversario
+            clearInterval(greenLaserIntv);
+
+            // bonus1--;
+            // bonus1Display.innerText = bonus1;
+
+            //bonus salute
+            if(health2 < 100){
+                health2++;
+                health2Display.innerText = health2;
+            }
+            //ridurre la salute dell'avversario
+            health1 = health1 - 5;
+            health1Display.innerText = health1;
+            return
         }
         cells[greenLaserIdx].classList.add('green-laser');
     }
@@ -136,6 +159,22 @@ function redShoot(event){
                 cells[redLaserIdx].classList.remove('boom');
             }, 200);
 
+            return;
+        }else if(cells[redLaserIdx].classList.contains('white-spaceship')){
+            //abbiamo colpito l'avversario
+            clearInterval(redLaserIntv);
+
+            // bonus1--;
+            // bonus1Display.innerText = bonus1;
+
+            //bonus salute
+            if(health1 < 100){
+                health1++;
+                health1Display.innerText = health1;
+            }
+            //ridurre la salute dell'avversario
+            health2 = health2 - 5;
+            health2Display.innerText = health2;
             return;
         }
         cells[redLaserIdx].classList.add('red-laser');
