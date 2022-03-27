@@ -75,6 +75,35 @@ addEventListener('keydown', moveRedSpaceship);
 
 //SPARO
 
+//controllare lo stato di salute dei giocatori
+function checkPlayerDeath(){
+    //evidenziare salute bassa
+    if(health1 < 25){
+        health1Display.classList.add('red-span');
+    }else if(health1 > 25 &&
+        health1Display.classList.contains('red-span')
+        ){
+            health1Display.classList.remove('red-span');
+        }
+
+    if(health2 < 25){
+        health2Display.classList.add('red-span');
+    }else if(health2 > 25 &&
+        health2Display.classList.contains('red-span')
+        ){
+            health2Display.classList.remove('red-span');
+        }
+
+    //controllare la morte di un giocatore
+    if(health1 < 1){
+        showAlert('Player 2 Wins');
+        return;
+    }else if(health2 < 1){
+        showAlert('Player 1 Wins');
+        return;
+    }
+}
+
 //sparo navicella bianca laser verde
 function greenShoot(event){
     if(event.code !=='ShiftRight')return;
@@ -121,6 +150,7 @@ function greenShoot(event){
             //ridurre la salute dell'avversario
             health1 = health1 - 5;
             health1Display.innerText = health1;
+            checkPlayerDeath()
             return
         }
         cells[greenLaserIdx].classList.add('green-laser');
@@ -175,6 +205,7 @@ function redShoot(event){
             //ridurre la salute dell'avversario
             health2 = health2 - 5;
             health2Display.innerText = health2;
+            checkPlayerDeath()
             return;
         }
         cells[redLaserIdx].classList.add('red-laser');
