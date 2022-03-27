@@ -34,7 +34,7 @@ for(let i = 0; i < RxC; i++){
     cells.push(cell);
     grid.appendChild(cell);
 }
-//controllare l'aumetno di livello
+//controllare l'aumento di livello
 function levelUp(){
     level++;
     if(level === 11){ //Gli umani vincono

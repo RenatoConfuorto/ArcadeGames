@@ -1,6 +1,6 @@
 :root{
-    --grid-width: 35;
-    --grid-height: 25;
+    --grid-width: 29;
+    --grid-height: 19;
     --cell-size: calc(93vh / var(--grid-height));
 }
 
