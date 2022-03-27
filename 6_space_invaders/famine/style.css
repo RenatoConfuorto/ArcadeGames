@@ -25,10 +25,7 @@
     background-size: cover;
 }
 
-.red-span{
-    color: red;
-}
-
+.red-span,
 .game-data h3:last-child{
     color: red;
 }
