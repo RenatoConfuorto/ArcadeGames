@@ -1,0 +1,52 @@
+:root{
+    --grid-width: 35;
+    --grid-height: 25;
+    --cell-size: calc(93vh / var(--grid-height));
+}
+
+#grid{
+    width: calc(var(--grid-width) * var(--cell-size) + 4px);
+    height: calc(var(--grid-height) * var(--cell-size) + 4px);
+    border: 2px solid #ffffff;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1ps dashed black;
+
+    font-size: 6px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.red-span{
+    color: red;
+}
+
+/*classi per le immagini*/
+.alien{
+    background-image: url(img/alien.png);
+}
+.boom{
+    background-image: url(img/boom.png);
+}
+
+.red-laser{
+    background-image: url(img/laser.png);
+}
+.green-laser{
+    background-image: url(img/laser-green.png);
+}
+
+.white-spaceship{
+    background-image: url(img/spaceship.png);
+}
+.red-spaceship{
+    background-image: url(img/spaceship-red.png);
+}
