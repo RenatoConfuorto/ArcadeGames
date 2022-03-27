@@ -3,6 +3,8 @@ const grid = document.getElementById('grid');
 const score1Display = document.getElementById('score1');
 const score2Display = document.getElementById('score2');
 const levelDisplay = document.getElementById('level');
+const player1 = document.getElementById('player1');
+const player2 = document.getElementById('player2');
 
 //ARRAY
 const cells = [];
@@ -10,7 +12,7 @@ let aliens = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 let aliensKilled = [];
 
 //dimensioni griglia
-const width = 29;
+const width = 31;
 const height = 19;
 const RxC = width * height;
 
@@ -24,6 +26,13 @@ let step = 1;
 let direction = 'forward';
 let speed = 500;
 
+//punti
+let score1 = 0;
+score1Display.innerText = score1;
+let score2 = 0;
+score2Display.innerText = score2;
+player1.classList.add('red-span');
+
 //livello
 let level = 1;
 levelDisplay.innerText = level + '/15';
@@ -31,7 +40,7 @@ levelDisplay.innerText = level + '/15';
 //stampare le celle
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
-    cell.innerText = i;
+    // cell.innerText = i;
     cell.classList.add('cell');
     cells.push(cell);
     grid.appendChild(cell);
@@ -356,6 +365,16 @@ addEventListener('keydown', moveRedSpaceship);
 
 //SPARO
 
+function checkHighScore(){
+    if(score1 > score2){
+        player1.classList.add('red-span');
+        player2.classList.remove('red-span');
+    }else if(score1 < score2){
+        player1.classList.remove('red-span');
+        player2.classList.add('red-span');
+    }
+}
+
 //sparo navicella bianca laser verde
 function greenShoot(event){
     if(event.code !=='ShiftRight')return;
@@ -390,8 +409,9 @@ function greenShoot(event){
             aliensKilled.push(killed);
 
             //+1 punto
-            score1++;
-            score1Display.innerText = score1;
+            score2++;
+            score2Display.innerText = score2;
+            checkHighScore()
             checkForLevelUp();
             return;
         }
@@ -436,8 +456,9 @@ function redShoot(event){
             aliensKilled.push(killed);
 
             //+1 punto
-            score2++;
-            score2Display.innerText = score2;
+            score1++;
+            score1Display.innerText = score1;
+            checkHighScore()
             checkForLevelUp();
             return;
         }

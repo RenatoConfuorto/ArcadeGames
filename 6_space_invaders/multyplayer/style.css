@@ -1,7 +1,11 @@
 :root{
-    --grid-width: 29;
+    --grid-width: 31;
     --grid-height: 19;
     --cell-size: calc(93vh / var(--grid-height));
+}
+
+.game-data{
+    width: 290px;
 }
 
 #grid{
