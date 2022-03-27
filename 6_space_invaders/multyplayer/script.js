@@ -58,13 +58,13 @@ function levelUp(){
     aliens = []; //svuotare aliens
 
     //stampare i nuovi alieni
-const row2 = width;
-const row3 = width * 2;
-const row4 = width * 3;
-const row5 = width * 4;
-const row6 = width * 5;
-const row7 = width * 6;
-const row8 = width * 7;
+    const row2 = width;
+    const row3 = width * 2;
+    const row4 = width * 3;
+    const row5 = width * 4;
+    const row6 = width * 5;
+    const row7 = width * 6;
+    const row8 = width * 7;
 
     switch(level){
         //livello 2

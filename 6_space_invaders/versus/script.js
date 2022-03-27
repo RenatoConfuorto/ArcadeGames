@@ -17,12 +17,18 @@ const RxC = width * height;
 let laserSpeed = 150;
 let whiteSpaceshipIdx = RxC - Math.floor(width/2) - 1;
 let redSpaceshipIdx = Math.floor(width/2);
+let addAliensIntv = null;
 
 //salute giocatori
 let health1 = 100;
 let health2 = 100;
 health1Display.innerText = health1;
 health2Display.innerText = health2;
+
+//alieni giocatore 1
+let aliens1 = [];
+//alieni giocatore 2
+let aliens2 = [];
 
 //stampare le celle
 for(let i = 0; i < RxC; i++){
@@ -32,6 +38,40 @@ for(let i = 0; i < RxC; i++){
     cells.push(cell);
     grid.appendChild(cell);
 }
+
+//MOVIMENTO ALIENI
+function drawAliens(){
+    for(let i = 0; i < aliens1.length; i++){
+        cells[aliens1[i]].classList.add('alien');
+    }
+
+    for(let i = 0; i < aliens2.length; i++){
+        cells[aliens2[i]].classList.add('alien');
+    }
+}
+
+function removeAlien(){
+    for(let i = 0; i < aliens.length; i++){
+        cells[aliens[i]].classList.remove('alien');
+    }
+}
+
+//generare nuovi alieni
+function addAliens(){
+    const numb1 = Math.floor(Math.random() * RxC);
+    const numb2 = Math.floor(Math.random() * RxC);
+
+    //annullare se si è troppo vicini all'astronave
+    if(numb1 < (width * 5 -1))return;
+    else if(numb1 > RxC -(width * 5 + 1))return;
+    else if(numb2 > RxC -(width * 5 + 1))return;
+    else if(numb2 < (width * 5 -1))return;
+
+    aliens1.push(numb1);
+    aliens2.push(numb2);
+}
+
+addAliensIntv = setInterval(addAliens, 500);
 
 //NAVICELLA
 cells[whiteSpaceshipIdx].classList.add('white-spaceship');
