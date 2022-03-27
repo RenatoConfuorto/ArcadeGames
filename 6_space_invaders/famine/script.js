@@ -24,7 +24,7 @@ let laserSpeed = 150;
 let aliensMoveIntv = null;
 
 //munizioni
-let ammo = 10;
+let ammo = 200;
 ammoDisplay.innerText = ammo;
 let timeOut = (laserSpeed * height) + 3000;
 
@@ -99,6 +99,7 @@ function addAliens(){
                 0, 1, 2, 3, 4, 5, 6,
                 21, 22, 23, 24, 25, 26, 27
             ]; //impostare gli alieni
+            ammo = ammo + 30;
             break;
         //livello 2
         case 2:
@@ -106,6 +107,7 @@ function addAliens(){
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
             ]; //impostare gli alieni
+            ammo = ammo + 30;
             break;
         //livello 3
         case 3:
@@ -114,6 +116,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
             ];
+            ammo = ammo + 50;
             break;
         //livello 4
         case 4:
@@ -122,6 +125,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
             ];
+            ammo = ammo + 50;
             break;
         //livello 5
         case 5:
@@ -131,6 +135,7 @@ function addAliens(){
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
                 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75
             ];
+            ammo = ammo + 50;
             break;
         //livello 6
         case 6:
@@ -139,6 +144,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
             ];
+            ammo = ammo + 50;
             break;
         //livello 7
         case 7:
@@ -147,6 +153,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
             ];
+            ammo = ammo + 50;
             break;
         //livello 8
         case 8:
@@ -155,6 +162,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
             ];
+            ammo = ammo + 50;
             break;
         //livello 9
         case 9:
@@ -163,6 +171,7 @@ function addAliens(){
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
             ];
+            ammo = ammo + 50;
             break;
             //livello 10
         case 10:
@@ -172,9 +181,10 @@ function addAliens(){
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
                 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76
             ];
+            ammo = ammo + 50;
             break;
     }
-
+    ammoDisplay.innerText = ammo;
     drawAliens();
     aliensMoveIntv = setInterval(moveAliens, speed);
 
@@ -217,10 +227,10 @@ function shoot(event){
     //uso munizioni
     ammo--;
     //display rosso se le munizioni sono basse
-    if(ammo < 100){
+    if(ammo < 50){
         ammoDisplay.classList.add('red-span');
     }else if(
-        ammo > 100 &&
+        ammo > 50 &&
         ammoDisplay.classList.contains('red-span')
     ){
         ammoDisplay.classList.remove('red-span');
@@ -229,9 +239,11 @@ function shoot(event){
     //bloccare il gioco se finiscono le munizioni
     if(ammo === 0){
         setTimeout(function(){
-            showAlert('Out of ammo');
-        }, 5000);
-        return;
+            if(ammo === 0){ //vedere se l'ultimo laser colpisce
+                clearInterval(aliensMoveIntv);
+                showAlert('Out of ammo');
+            }
+        }, 3000);
     }
 
 
