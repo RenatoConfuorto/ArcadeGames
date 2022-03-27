@@ -17,7 +17,7 @@
 .cell{
     width: var(--cell-size);
     height: var(--cell-size);
-    border: 1px dashed black;
+    /* border: 1px dashed black; */
     font-size : 8px;
 
     background-position: center;
@@ -26,6 +26,10 @@
 }
 
 .red-span{
+    color: red;
+}
+
+.game-data h3:last-child{
     color: red;
 }
 

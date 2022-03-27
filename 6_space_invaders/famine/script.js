@@ -2,13 +2,15 @@
 const grid = document.getElementById('grid');
 const scoreDisplay = document.getElementById('score');
 const ammoDisplay = document.getElementById('ammo');
+const bonusDisplay = document.getElementById('bonus-ammo');
+
 //DIMENSIONI GRIGLIA
 const width = 21;
 const height = 15;
 const RxC = width * height;
 //ARRAY
 const cells = [];
-let aliens = [0, 1, 2, 3];
+let aliens = [0, 1, 2, 3, 4, 5, 6];
 
 //punti, munizioni e livello
 let level = 0;
@@ -26,14 +28,20 @@ let aliensMoveIntv = null;
 //munizioni
 let ammo = 200;
 ammoDisplay.innerText = ammo;
-let timeOut = (laserSpeed * height) + 3000;
 
+//punti
+let score = 0;
+scoreDisplay.innerText = score;
+
+//bonus munizioni
+let bonus = 15;
+bonusDisplay.innerText = bonus;
 
 //stampare le celle
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
     cell.classList.add('cell');
-    cell.innerText = i;
+    // cell.innerText = i;
     cells.push(cell);
     grid.appendChild(cell);
 }
@@ -47,6 +55,15 @@ function drawAliens(){
 function removeAliens(){
     for(let i = 0; i < aliens.length; i++){
         cells[aliens[i]].classList.remove('alien');
+    }
+}
+//controllare se gli alieni hanno vinto
+function checkForAlienWin (){
+    for(let i = 0; i < aliens.length; i++){
+        if(aliens[i] === spaceShipIdx){
+            clearInterval(aliensMoveIntv);
+            showAlert('Aliens Win');
+        }
     }
 }
 
@@ -74,6 +91,7 @@ function moveAliens(){
     for(let i = 0; i < aliens.length; i++){
         aliens[i] = aliens[i] + step;
     }
+    checkForAlienWin();
     drawAliens();
 }
 
@@ -89,7 +107,9 @@ function addAliens(){
 
     if(level === 11){ //si ripete l'ultimo livello
         level = 10;
-        return;
+        if(speed > 150){
+            speed = speed - 50;
+        }
     }
     
     switch(level){
@@ -236,6 +256,7 @@ function shoot(event){
         ammoDisplay.classList.remove('red-span');
     }
     ammoDisplay.innerText = ammo;
+
     //bloccare il gioco se finiscono le munizioni
     if(ammo === 0){
         setTimeout(function(){
@@ -277,6 +298,18 @@ function shoot(event){
                 
                 addAliens();
             }
+
+            //punteggio;
+            score++;
+            scoreDisplay.innerText = score;
+            //aggiungere munizioni ogni tot punti
+            bonus--
+            if(bonus === 0){
+                bonus = 15;
+                ammo = ammo + 5;
+                ammoDisplay.innerText = ammo;
+            }
+            bonusDisplay.innerText = bonus;
 
             return;
         }
