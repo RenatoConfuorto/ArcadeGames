@@ -19,6 +19,14 @@ let whiteSpaceshipIdx = RxC - Math.floor(width/2) - 1;
 let redSpaceshipIdx = Math.floor(width/2);
 let addAliensIntv = null;
 
+//movimento alieni
+let step1 = -1;
+let direction1 = 'backword';
+let step2 = 1;
+let direction2 = 'forward';
+let speed = 500;
+let aliensMoveIntv;
+
 //salute giocatori
 let health1 = 100;
 let health2 = 100;
@@ -51,8 +59,12 @@ function drawAliens(){
 }
 
 function removeAlien(){
-    for(let i = 0; i < aliens.length; i++){
-        cells[aliens[i]].classList.remove('alien');
+    for(let i = 0; i < aliens1.length; i++){
+        cells[aliens1[i]].classList.remove('alien');
+    }
+
+    for(let i = 0; i < aliens2.length; i++){
+        cells[aliens2[i]].classList.remove('alien');
     }
 }
 
@@ -63,15 +75,94 @@ function addAliens(){
 
     //annullare se si è troppo vicini all'astronave
     if(numb1 < (width * 5 -1))return;
-    else if(numb1 > RxC -(width * 5 + 1))return;
-    else if(numb2 > RxC -(width * 5 + 1))return;
-    else if(numb2 < (width * 5 -1))return;
+    if(numb1 > RxC -(width * 5 + 1))return;
+    if(numb2 > RxC -(width * 5 + 1))return;
+    if(numb2 < (width * 5 -1))return;
 
-    aliens1.push(numb1);
-    aliens2.push(numb2);
+    //controllare se esiste già l'alieno
+    if(!aliens1.includes(numb1) && !aliens2.includes(numb1)){
+        aliens1.push(numb1);
+    }
+    if(!aliens2.includes(numb2 && !aliens2.includes(numb2))){
+        aliens2.push(numb2);
+    }
 }
 
 addAliensIntv = setInterval(addAliens, 500);
+
+//MOVIMENTO DEGLI ALINENI
+function moveAliens(){
+
+    removeAlien()
+    const leftEdge1 = aliens1[0] % width === 0;
+    const rightEdge1 = aliens1[aliens1.length - 1] % width === width - 1;
+
+    const leftEdge2 = aliens2[0] % width === 0;
+    const rightEdge2 = aliens2[aliens2.length - 1] % width === width - 1;
+
+    //movimento aliens1
+    //arrivato al bordo destro
+    if(direction1 === 'forward' && rightEdge1){
+        //cambiare direzione
+        direction1 = 'backward';
+        //invertire il passo
+        step1 = -1;
+        //spostare gli alieni alla riga sopra
+        for(let i = 0; i < aliens1.length; i++){
+            aliens1[i] = aliens1[i] - width + 1;
+        }
+    }
+    //arrivato al bordo sinistro
+    if(direction1 === 'backward' && leftEdge1){
+        //cambiare direzione
+        direction1 = 'forward';
+        //invertire il passo
+        step1 = 1;
+        //spostare gli alieni alla riga sopra
+        for(let i = 0; i < aliens1.length; i++){
+            aliens1[i] = aliens1[i] - width - 1;
+        }
+    }
+
+    //movimento aliens2
+    //arrivato al bordo destro
+    if(direction2 === 'forward' && rightEdge2){
+        //cambiare direzione
+        direction2 = 'backward';
+        //invertire il passo
+        step2 = -1;
+        //spostare gli alieni alla riga sotto
+        for(let i = 0; i < aliens2.length; i++){
+            aliens2[i] = aliens2[i] + width + 1;
+        }
+    }
+    //arrivato al bordo sinistro
+    if(direction2 === 'backward' && leftEdge2){
+        //cambiare direzione
+        direction2 = 'forward';
+        //invertire il passo
+        step2 = 1;
+        //spostare gli alieni alla riga sotto
+        for(let i = 0; i < aliens2.length; i++){
+            aliens2[i] = aliens2[i] + width - 1;
+        }
+    }
+
+    //modificare gli indici degli alieni
+    for(let i = 0; i < aliens1.length; i++){
+        aliens1[i] = aliens1[i] + step1;
+    }
+
+    for(let i = 0; i < aliens2.length; i++){
+        aliens2[i] = aliens2[i] + step2;
+    }
+    drawAliens();
+}
+
+
+drawAliens();
+
+aliensMoveIntv = setInterval(moveAliens, speed);
 
 //NAVICELLA
 cells[whiteSpaceshipIdx].classList.add('white-spaceship');
