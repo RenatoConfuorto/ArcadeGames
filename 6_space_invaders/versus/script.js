@@ -73,89 +73,53 @@ function addAliens(){
     const numb1 = Math.floor(Math.random() * RxC);
     const numb2 = Math.floor(Math.random() * RxC);
 
-    //annullare se si è troppo vicini all'astronave
-    if(numb1 < (width * 5 -1))return;
-    if(numb1 > RxC -(width * 5 + 1))return;
-    if(numb2 > RxC -(width * 5 + 1))return;
-    if(numb2 < (width * 5 -1))return;
-
     //controllare se esiste già l'alieno
-    if(!aliens1.includes(numb1) && !aliens2.includes(numb1)){
-        aliens1.push(numb1);
+    if(numb1 > (width * 5 - 1) &&
+        numb1 < RxC - (width * 5 - 1) &&
+        !aliens1.includes(numb1) &&
+        !aliens2.includes(numb1)){
+
+            aliens1.push(numb1);
     }
-    if(!aliens2.includes(numb2 && !aliens2.includes(numb2))){
+    if(numb2 > (width * 5 - 1) &&
+        numb2 < RxC - (width * 5 - 1) &&
+        !aliens2.includes(numb2 &&
+        !aliens2.includes(numb2))){
         aliens2.push(numb2);
     }
+
+    
+    aliens2.sort(function(a, b){return a-b});
+    aliens1.sort(function(a, b){return a-b});
 }
 
 addAliensIntv = setInterval(addAliens, 500);
 
 //MOVIMENTO DEGLI ALINENI
+
 function moveAliens(){
-
-    removeAlien()
-    const leftEdge1 = aliens1[0] % width === 0;
-    const rightEdge1 = aliens1[aliens1.length - 1] % width === width - 1;
-
-    const leftEdge2 = aliens2[0] % width === 0;
-    const rightEdge2 = aliens2[aliens2.length - 1] % width === width - 1;
-
-    //movimento aliens1
-    //arrivato al bordo destro
-    if(direction1 === 'forward' && rightEdge1){
-        //cambiare direzione
-        direction1 = 'backward';
-        //invertire il passo
-        step1 = -1;
-        //spostare gli alieni alla riga sopra
-        for(let i = 0; i < aliens1.length; i++){
-            aliens1[i] = aliens1[i] - width + 1;
-        }
-    }
-    //arrivato al bordo sinistro
-    if(direction1 === 'backward' && leftEdge1){
-        //cambiare direzione
-        direction1 = 'forward';
-        //invertire il passo
-        step1 = 1;
-        //spostare gli alieni alla riga sopra
-        for(let i = 0; i < aliens1.length; i++){
-            aliens1[i] = aliens1[i] - width - 1;
-        }
-    }
-
-    //movimento aliens2
-    //arrivato al bordo destro
-    if(direction2 === 'forward' && rightEdge2){
-        //cambiare direzione
-        direction2 = 'backward';
-        //invertire il passo
-        step2 = -1;
-        //spostare gli alieni alla riga sotto
-        for(let i = 0; i < aliens2.length; i++){
-            aliens2[i] = aliens2[i] + width + 1;
-        }
-    }
-    //arrivato al bordo sinistro
-    if(direction2 === 'backward' && leftEdge2){
-        //cambiare direzione
-        direction2 = 'forward';
-        //invertire il passo
-        step2 = 1;
-        //spostare gli alieni alla riga sotto
-        for(let i = 0; i < aliens2.length; i++){
-            aliens2[i] = aliens2[i] + width - 1;
-        }
-    }
+    
+    removeAlien();
 
     //modificare gli indici degli alieni
     for(let i = 0; i < aliens1.length; i++){
-        aliens1[i] = aliens1[i] + step1;
+        if(aliens1[i] <= 0){
+            aliens1.splice(i, 1);
+        }else{
+            aliens1[i] = aliens1[i] + step1;
+        }
     }
 
     for(let i = 0; i < aliens2.length; i++){
-        aliens2[i] = aliens2[i] + step2;
+        if(aliens2[i] >= RxC - 1){
+            aliens2.splice(i, 1);
+        }else{
+            aliens2[i] = aliens2[i] + step2;
+        }
     }
+
+    //console.log(aliens2[aliens2.length - 1], aliens1[0]);
+
     drawAliens();
 }
 
