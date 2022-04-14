@@ -97,6 +97,26 @@ addAliensIntv = setInterval(addAliens, 500);
 
 //MOVIMENTO DEGLI ALINENI
 
+function checkForAlienCrash(){
+    //constrollare se gli alieni si sono scontrati con la navicella rossa
+    for(let i = 0; i < aliens1.length; i++){
+        if(aliens1[i] === redSpaceshipIdx){
+            aliens1.splice(i, 1);
+            health1--;
+            health1Display.innerText = health1;
+        }
+    }
+
+    //controllare se gli alieni si sono scontrati con la navicella bianca
+    for(let i = 0; i < aliens2.length; i++){
+        if(aliens2[i] === whiteSpaceshipIdx){
+            aliens2.splice(i, 1);
+            health2--;
+            health2Display.innerText = health2;
+        }
+    }
+}
+
 function moveAliens(){
     
     removeAlien();
@@ -120,6 +140,7 @@ function moveAliens(){
 
     //console.log(aliens2[aliens2.length - 1], aliens1[0]);
 
+    checkForAlienCrash();
     drawAliens();
 }
 
