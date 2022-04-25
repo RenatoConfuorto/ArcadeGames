@@ -20,9 +20,9 @@ const cells = [];
 let aliens1 = [];
 //alieni giocatore 2
 let aliens2 = [];
-//array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario]
-const player1 = ['Player 1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2'];
-const player2 = ['Player 2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1']
+//array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario, moveLeftCode, moveRightCode, shootCode]
+const player1 = ['Player 1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
+const player2 = ['Player 2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
 
 
 
@@ -48,7 +48,7 @@ function startGame(currentPlayer){
     //inserire salute iniziale
     currentPlayer[5].innerText = currentPlayer[4];
     //inserire uccisioni rimanenti per il bonus iniziali
-    currentPlayer[7].innerText = currentPlayer[5];
+    currentPlayer[7].innerText = currentPlayer[6];
     //inserire la navicella
     cells[currentPlayer[1]].classList.add(currentPlayer[2]);
 }
@@ -170,3 +170,31 @@ function moveAliens(){
 drawAliens();
 
 aliensMoveIntv = setInterval(moveAliens, speed);
+
+
+
+//MOVIMENTO DELLE NAVICELLE
+function moveSpaceship(event, currentPlayer){
+    const leftEdge = currentPlayer[1] % width === 0;
+    const rightEdge = currentPlayer[1] % width === width - 1;
+
+    //rimuovere la navicella
+    cells[currentPlayer[1]].classList.remove(currentPlayer[2]);
+
+    if(event.code === currentPlayer[10] && !leftEdge){
+        //mi muovo a sinistra
+        currentPlayer[1]--;
+    }else if(event.code === currentPlayer[11] && !rightEdge){
+        //mi muovo a destra
+        currentPlayer[1]++;
+    }
+
+    cells[currentPlayer[1]].classList.add(currentPlayer[2]);
+}
+
+function moveSpaceshipWrapper(event){
+    moveSpaceship(event, player1);
+    moveSpaceship(event, player2);
+}
+
+document.addEventListener('keydown', moveSpaceshipWrapper);
