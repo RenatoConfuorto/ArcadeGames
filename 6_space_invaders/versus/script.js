@@ -20,9 +20,9 @@ const cells = [];
 let aliens1 = [];
 //alieni giocatore 2
 let aliens2 = [];
-//array giocatori = [player, spaceshipIndex, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario]
-const player1 = ['Player 1', redSpaceshipIdx, 100, health1Display, 25, bonus1Display, aliens1, 'Player 2'];
-const player2 = ['Player 2', whiteSpaceshipIdx, 100, health2Display, 25, bonus2Display, aliens2, 'Player 1']
+//array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario]
+const player1 = ['Player 1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2'];
+const player2 = ['Player 2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1']
 
 
 
@@ -32,15 +32,6 @@ let aliensMoveIntv;
 let laserSpeed = 150;
 let addAliensIntv = null;
 
-//stampare salute e bonus di partenza
-function startGame(currentPlayer){
-    //inserire salute iniziale
-    currentPlayer[3].innerText = currentPlayer[2];
-    //inserire uccisioni rimanenti per il bonus iniziali
-    currentPlayer[5].innerText = currentPlayer[4];
-}
-startGame(player1);
-startGame(player2);
 
 
 //stampare le celle
@@ -51,6 +42,18 @@ for(let i = 0; i < RxC; i++){
     cells.push(cell);
     grid.appendChild(cell);
 }
+
+//stampare salute e bonus di partenza
+function startGame(currentPlayer){
+    //inserire salute iniziale
+    currentPlayer[5].innerText = currentPlayer[4];
+    //inserire uccisioni rimanenti per il bonus iniziali
+    currentPlayer[7].innerText = currentPlayer[5];
+    //inserire la navicella
+    cells[currentPlayer[1]].classList.add(currentPlayer[2]);
+}
+startGame(player1);
+startGame(player2);
 
 //MOVIMENTO ALIENI
 function drawAliens(){
@@ -81,34 +84,34 @@ function addAliens(){
     //controllare se esiste già l'alieno
     if(numb1 > (width * 5 - 1) &&
         numb1 < RxC - (width * 5 - 1) &&
-        !aliens1.includes(numb1) &&
-        !aliens2.includes(numb1)){
+        !player1[8].includes(numb1) &&
+        !player2[8].includes(numb1)){
 
-            aliens1.push(numb1);
+            player1[8].push(numb1);
     }
     if(numb2 > (width * 5 - 1) &&
         numb2 < RxC - (width * 5 - 1) &&
-        !aliens2.includes(numb2 &&
-        !aliens2.includes(numb2))){
-        aliens2.push(numb2);
+        !player1[8].includes(numb2) &&
+        !player2[8].includes(numb2)){
+        player2[8].push(numb2);
     }
 
     
-    aliens2.sort(function(a, b){return a-b});
-    aliens1.sort(function(a, b){return a-b});
+    player2[8].sort(function(a, b){return a-b});
+    player1[8].sort(function(a, b){return a-b});
 }
 
 addAliensIntv = setInterval(addAliens, 500);
 
+//constrollare se gli alieni si sono scontrati con la navicella
 function checkForAlienCrash(currentPlayer){
-    //constrollare se gli alieni si sono scontrati con la navicella
-    const currentArray = currentPlayer[6];
+    const currentArray = currentPlayer[8];
     for(let i = 0; i < currentArray.length; i++){
         if(currentArray[i] === currentPlayer[1]){
             //l'alieno ha colpito la navicella
             currentArray.splice(i, 1);
-            currentPlayer[2]--;
-            currentPlayer[3].innerText = currentPlayer[2];
+            currentPlayer[4]--;
+            currentPlayer[5].innerText = currentPlayer[4];
         }
     }
     checkPlayerDeath(currentPlayer);
@@ -117,28 +120,29 @@ function checkForAlienCrash(currentPlayer){
 //controllare lo stato di salute dei giocatori
 function checkPlayerDeath(currentPlayer){
     //evidenziare salute bassa
-    if(currentPlayer[2] <= 25){
-        currentPlayer[3].classList.add('red-span');
-    }else if(currentPlayer[2] > 25 &&
-        currentPlayer[3].classList.contains('red-span')
+    if(currentPlayer[4] <= 25){
+        currentPlayer[5].classList.add('red-span');
+    }else if(currentPlayer[4] > 25 &&
+        currentPlayer[5].classList.contains('red-span')
         ){
-            currentPlayer[3].classList.remove('red-span');
+            currentPlayer[5].classList.remove('red-span');
         }
 
     //controllare la morte di un giocatore
-    if(currentPlayer[2] < 1){
+    if(currentPlayer[4] < 1){
         clearInterval(addAliensIntv);
         clearInterval(aliensMoveIntv);
-        showAlert(`${currentPlayer[7]} Wins`);
+        showAlert(`${currentPlayer[9]} Wins`);
         return;
     }
 }
 
+//muovere gli alieni
 function moveAliens(){
     
     removeAlien();
 
-    //modificare gli indici degli alieni
+    //modificare gli indici degli alieni e rimuoverli dagli array se sono usciti dalla griglia
     for(let i = 0; i < aliens1.length; i++){
         if(aliens1[i] <= 0){
             aliens1.splice(i, 1);
