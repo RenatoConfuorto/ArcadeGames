@@ -21,8 +21,8 @@ let aliens1 = [];
 //alieni giocatore 2
 let aliens2 = [];
 //array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario, moveLeftCode, moveRightCode, shootCode]
-const player1 = ['Player1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
-const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
+const player1 = ['Player1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 50, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
+const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 50, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
 
 
 
@@ -202,11 +202,11 @@ document.addEventListener('keydown', moveSpaceshipWrapper);
 //SPARO
 function checkForBonus(currentPlayer){
     if(currentPlayer[6] === 0){
-        //dare 5 puntin salute al giocatore, o se ne ha 96 portarli a 100
-        currentPlayer[6] = 25;
+        //dare 5 puntin salute al giocatore, o se ne ha 99 portarli a 100
+        currentPlayer[6] = 50;
         currentPlayer[7].innerText = currentPlayer[6];
-        if(currentPlayer[4] < 96){
-            currentPlayer[4] += 5;
+        if(currentPlayer[4] < 99){
+            currentPlayer[4] += 2;
             currentPlayer[5].innerText = currentPlayer[4];
         }else{
             currentPlayer[4] = 100;
