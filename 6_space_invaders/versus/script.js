@@ -21,8 +21,8 @@ let aliens1 = [];
 //alieni giocatore 2
 let aliens2 = [];
 //array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario, moveLeftCode, moveRightCode, shootCode]
-const player1 = ['Player 1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
-const player2 = ['Player 2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
+const player1 = ['Player1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 25, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
+const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 25, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
 
 
 
@@ -169,7 +169,7 @@ function moveAliens(){
 
 drawAliens();
 
-aliensMoveIntv = setInterval(moveAliens, speed);
+// aliensMoveIntv = setInterval(moveAliens, speed);
 
 
 
@@ -198,3 +198,70 @@ function moveSpaceshipWrapper(event){
 }
 
 document.addEventListener('keydown', moveSpaceshipWrapper);
+
+//SPARO
+
+function shoot(event, currentPlayer, otherPlayer){
+    console.log(event);
+    if(event.code !== currentPlayer[12])return;
+    if(event.repeat)return;
+    
+    //punto di partenza laser 
+    let laserIdx = currentPlayer[1];
+    let laserIntv = null;
+
+    let laserStep;
+    if(currentPlayer[0] === 'Player2'){
+        laserStep = -width;
+    }else if(currentPlayer[0] === 'Player1'){
+        laserStep = width;
+    }
+
+    function moveLaser(){
+        console.log('è partito');
+        cells[laserIdx].classList.remove(currentPlayer[3]);
+        laserIdx = laserIdx + laserStep;
+
+        //controllare se il laser è uscito dalla griglia
+        if(laserIdx < 0 || laserIdx >RxC){
+            clearInterval(laserIntv);
+            return;
+        }
+
+        //controllare se abbiamo colpito qualcosa
+        console.log('punto 2');
+        //controllare se abbiamo colpito un alieno
+        if(cells[laserIdx].classList.contains('alien')){
+            //abbiamo colpito l'alieno
+            return;
+        }else if(cells[laserIdx].classList.contains(otherPlayer[2])){
+            //abbiamo colpito l'avversario
+            clearInterval(laserIntv);
+
+            //aumentare la salute di current player
+            if(currentPlayer[4] < 100){
+                currentPlayer[4]++,
+                currentPlayer[5].innerText = currentPlayer[4];
+            }
+
+            //ridurre la salute dell'avversario
+            otherPlayer[4] -= 5;
+            otherPlayer[5].innerText = otherPlayer[4];
+            checkPlayerDeath(otherPlayer);
+            return;
+        }
+        
+        cells[laserIdx].classList.add(currentPlayer[3]);
+    }
+    
+    console.log('sparo');
+    laserIntv = setInterval(moveLaser, laserSpeed);
+}
+
+function shootWrapper(event){
+    shoot(event, player1, player2);
+    shoot(event, player2, player1);
+}
+
+
+document.addEventListener('keydown', shootWrapper);
