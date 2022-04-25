@@ -37,7 +37,7 @@ let addAliensIntv = null;
 //stampare le celle
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
-    cell.innerText = i;
+    // cell.innerText = i;
     cell.classList.add('cell');
     cells.push(cell);
     grid.appendChild(cell);
@@ -101,7 +101,7 @@ function addAliens(){
     player1[8].sort(function(a, b){return a-b});
 }
 
-addAliensIntv = setInterval(addAliens, 500);
+addAliensIntv = setInterval(addAliens, speed);
 
 //constrollare se gli alieni si sono scontrati con la navicella
 function checkForAlienCrash(currentPlayer){
@@ -114,11 +114,11 @@ function checkForAlienCrash(currentPlayer){
             currentPlayer[5].innerText = currentPlayer[4];
         }
     }
-    checkPlayerDeath(currentPlayer);
+    checkPlayerHealth(currentPlayer);
 }
 
 //controllare lo stato di salute dei giocatori
-function checkPlayerDeath(currentPlayer){
+function checkPlayerHealth(currentPlayer){
     //evidenziare salute bassa
     if(currentPlayer[4] <= 25){
         currentPlayer[5].classList.add('red-span');
@@ -169,7 +169,7 @@ function moveAliens(){
 
 drawAliens();
 
-// aliensMoveIntv = setInterval(moveAliens, speed);
+aliensMoveIntv = setInterval(moveAliens, speed);
 
 
 
@@ -200,9 +200,24 @@ function moveSpaceshipWrapper(event){
 document.addEventListener('keydown', moveSpaceshipWrapper);
 
 //SPARO
+function checkForBonus(currentPlayer){
+    if(currentPlayer[6] === 0){
+        //dare 5 puntin salute al giocatore, o se ne ha 96 portarli a 100
+        currentPlayer[6] = 25;
+        currentPlayer[7].innerText = currentPlayer[6];
+        if(currentPlayer[4] < 96){
+            currentPlayer[4] += 5;
+            currentPlayer[5].innerText = currentPlayer[4];
+        }else{
+            currentPlayer[4] = 100;
+            currentPlayer[5].innerText = currentPlayer[4];
+        }
+        checkPlayerHealth(currentPlayer);
+    }
+}
 
 function shoot(event, currentPlayer, otherPlayer){
-    console.log(event);
+    // console.log(event);
     if(event.code !== currentPlayer[12])return;
     if(event.repeat)return;
     
@@ -218,7 +233,6 @@ function shoot(event, currentPlayer, otherPlayer){
     }
 
     function moveLaser(){
-        console.log('è partito');
         cells[laserIdx].classList.remove(currentPlayer[3]);
         laserIdx = laserIdx + laserStep;
 
@@ -229,11 +243,35 @@ function shoot(event, currentPlayer, otherPlayer){
         }
 
         //controllare se abbiamo colpito qualcosa
-        console.log('punto 2');
+
         //controllare se abbiamo colpito un alieno
         if(cells[laserIdx].classList.contains('alien')){
             //abbiamo colpito l'alieno
+            clearInterval(laserIntv);
+
+            //ripulire la cella e effetto esplosione
+            cells[laserIdx].classList.remove('alien', currentPlayer[3]);
+            cells[laserIdx].classList.add('boom');
+            setTimeout(function(){
+                cells[laserIdx].classList.remove('boom');
+            }, 200);
+
+            //aggiornare il bonus
+            currentPlayer[6]--;
+            currentPlayer[7].innerText = currentPlayer[6];
+            checkForBonus(currentPlayer);
+
+            //trovare l'array dell'alieno e rimuoverlo
+
+            if(currentPlayer[8].includes(laserIdx)){
+                const killed = currentPlayer[8].indexOf(laserIdx);
+                currentPlayer[8].splice(killed, 1);
+            }else{
+                const killed = otherPlayer[8].indexOf(laserIdx);
+                otherPlayer[8].splice(killed, 1);
+            }
             return;
+
         }else if(cells[laserIdx].classList.contains(otherPlayer[2])){
             //abbiamo colpito l'avversario
             clearInterval(laserIntv);
@@ -247,14 +285,13 @@ function shoot(event, currentPlayer, otherPlayer){
             //ridurre la salute dell'avversario
             otherPlayer[4] -= 5;
             otherPlayer[5].innerText = otherPlayer[4];
-            checkPlayerDeath(otherPlayer);
+            checkPlayerHealth(otherPlayer);
             return;
         }
         
         cells[laserIdx].classList.add(currentPlayer[3]);
     }
     
-    console.log('sparo');
     laserIntv = setInterval(moveLaser, laserSpeed);
 }
 
