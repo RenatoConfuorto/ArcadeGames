@@ -21,8 +21,41 @@ let aliens1 = [];
 //alieni giocatore 2
 let aliens2 = [];
 //array giocatori = [player, spaceshipIndex, classe navicella, classe laser, health, healthDisplay, bonus, bonusDisplay, aliensArray, avversario, moveLeftCode, moveRightCode, shootCode]
+/*
 const player1 = ['Player1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 50, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
-const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 50, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']
+const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 50, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']*/
+const player1 = {
+    name: 'Player1',
+    position: redSpaceshipIdx,
+    spaceshipClassName: 'red-spaceship',
+    laserClassName: 'red-laser',
+    health: 100,
+    healthDisplay: health1Display,
+    bonus: 50,
+    bonusDisplay: bonus1Display,
+    aliensArray: aliens1,
+    enemy: 'Player 2',
+    moveLeftCode: 'KeyA',
+    moveRigthCode: 'KeyD',
+    shootCode: 'Space'
+}
+const player2 = {
+    name: 'Player2',
+    position: whiteSpaceshipIdx,
+    spaceshipClassName: 'white-spaceship',
+    laserClassName: 'green-laser',
+    health: 100,
+    healthDisplay: health2Display,
+    bonus: 50,
+    bonusDisplay: bonus2Display,
+    aliensArray: aliens2,
+    enemy: 'Player 1',
+    moveLeftCode: 'ArrowLeft',
+    moveRigthCode: 'ArrowRight',
+    shootCode: 'ShiftRight'
+}
+
+
 
 
 
@@ -46,11 +79,11 @@ for(let i = 0; i < RxC; i++){
 //stampare salute e bonus di partenza
 function startGame(currentPlayer){
     //inserire salute iniziale
-    currentPlayer[5].innerText = currentPlayer[4];
+    currentPlayer.healthDisplay.innerText = currentPlayer.health;
     //inserire uccisioni rimanenti per il bonus iniziali
-    currentPlayer[7].innerText = currentPlayer[6];
+    currentPlayer.bonusDisplay.innerText = currentPlayer.bonus;
     //inserire la navicella
-    cells[currentPlayer[1]].classList.add(currentPlayer[2]);
+    cells[currentPlayer.position].classList.add(currentPlayer.spaceshipClassName);
 }
 startGame(player1);
 startGame(player2);
@@ -84,34 +117,34 @@ function addAliens(){
     //controllare se esiste già l'alieno
     if(numb1 > (width * 5 - 1) &&
         numb1 < RxC - (width * 5 - 1) &&
-        !player1[8].includes(numb1) &&
-        !player2[8].includes(numb1)){
+        !player1.aliensArray.includes(numb1) &&
+        !player2.aliensArray.includes(numb1)){
 
-            player1[8].push(numb1);
+            player1.aliensArray.push(numb1);
     }
     if(numb2 > (width * 5 - 1) &&
         numb2 < RxC - (width * 5 - 1) &&
-        !player1[8].includes(numb2) &&
-        !player2[8].includes(numb2)){
-        player2[8].push(numb2);
+        !player1.aliensArray.includes(numb2) &&
+        !player2.aliensArray.includes(numb2)){
+        player2.aliensArray.push(numb2);
     }
 
     
-    player2[8].sort(function(a, b){return a-b});
-    player1[8].sort(function(a, b){return a-b});
+    player2.aliensArray.sort(function(a, b){return a-b});
+    player1.aliensArray.sort(function(a, b){return a-b});
 }
 
 addAliensIntv = setInterval(addAliens, speed);
 
 //constrollare se gli alieni si sono scontrati con la navicella
 function checkForAlienCrash(currentPlayer){
-    const currentArray = currentPlayer[8];
+    const currentArray = currentPlayer.aliensArray;
     for(let i = 0; i < currentArray.length; i++){
-        if(currentArray[i] === currentPlayer[1]){
+        if(currentArray[i] === currentPlayer.position){
             //l'alieno ha colpito la navicella
             currentArray.splice(i, 1);
-            currentPlayer[4]--;
-            currentPlayer[5].innerText = currentPlayer[4];
+            currentPlayer.health--;
+            currentPlayer.healthDisplay.innerText = currentPlayer.health;
         }
     }
     checkPlayerHealth(currentPlayer);
@@ -120,19 +153,19 @@ function checkForAlienCrash(currentPlayer){
 //controllare lo stato di salute dei giocatori
 function checkPlayerHealth(currentPlayer){
     //evidenziare salute bassa
-    if(currentPlayer[4] <= 25){
-        currentPlayer[5].classList.add('red-span');
-    }else if(currentPlayer[4] > 25 &&
-        currentPlayer[5].classList.contains('red-span')
+    if(currentPlayer.health <= 25){
+        currentPlayer.healthDisplay.classList.add('red-span');
+    }else if(currentPlayer.health > 25 &&
+        currentPlayer.healthDisplay.classList.contains('red-span')
         ){
-            currentPlayer[5].classList.remove('red-span');
+            currentPlayer.healthDisplay.classList.remove('red-span');
         }
 
     //controllare la morte di un giocatore
-    if(currentPlayer[4] < 1){
+    if(currentPlayer.health < 1){
         clearInterval(addAliensIntv);
         clearInterval(aliensMoveIntv);
-        showAlert(`${currentPlayer[9]} Wins`);
+        showAlert(`${currentPlayer.enemy} Wins`);
         return;
     }
 }
@@ -175,21 +208,21 @@ aliensMoveIntv = setInterval(moveAliens, speed);
 
 //MOVIMENTO DELLE NAVICELLE
 function moveSpaceship(event, currentPlayer){
-    const leftEdge = currentPlayer[1] % width === 0;
-    const rightEdge = currentPlayer[1] % width === width - 1;
+    const leftEdge = currentPlayer.position % width === 0;
+    const rightEdge = currentPlayer.position % width === width - 1;
 
     //rimuovere la navicella
-    cells[currentPlayer[1]].classList.remove(currentPlayer[2]);
+    cells[currentPlayer.position].classList.remove(currentPlayer.spaceshipClassName);
 
-    if(event.code === currentPlayer[10] && !leftEdge){
+    if(event.code === currentPlayer.moveLeftCode && !leftEdge){
         //mi muovo a sinistra
-        currentPlayer[1]--;
-    }else if(event.code === currentPlayer[11] && !rightEdge){
+        currentPlayer.position--;
+    }else if(event.code === currentPlayer.moveRigthCode && !rightEdge){
         //mi muovo a destra
-        currentPlayer[1]++;
+        currentPlayer.position++;
     }
 
-    cells[currentPlayer[1]].classList.add(currentPlayer[2]);
+    cells[currentPlayer.position].classList.add(currentPlayer.spaceshipClassName);
 }
 
 function moveSpaceshipWrapper(event){
@@ -201,16 +234,16 @@ document.addEventListener('keydown', moveSpaceshipWrapper);
 
 //SPARO
 function checkForBonus(currentPlayer){
-    if(currentPlayer[6] === 0){
+    if(currentPlayer.bonus === 0){
         //dare 5 puntin salute al giocatore, o se ne ha 99 portarli a 100
-        currentPlayer[6] = 50;
-        currentPlayer[7].innerText = currentPlayer[6];
-        if(currentPlayer[4] < 99){
-            currentPlayer[4] += 2;
-            currentPlayer[5].innerText = currentPlayer[4];
+        currentPlayer.bonus = 50;
+        currentPlayer.bonusDisplay.innerText = currentPlayer.bonus;
+        if(currentPlayer.health < 99){
+            currentPlayer.health += 2;
+            currentPlayer.healthDisplay.innerText = currentPlayer.health;
         }else{
-            currentPlayer[4] = 100;
-            currentPlayer[5].innerText = currentPlayer[4];
+            currentPlayer.health = 100;
+            currentPlayer.healthDisplay.innerText = currentPlayer.health;
         }
         checkPlayerHealth(currentPlayer);
     }
@@ -218,22 +251,22 @@ function checkForBonus(currentPlayer){
 
 function shoot(event, currentPlayer, otherPlayer){
     // console.log(event);
-    if(event.code !== currentPlayer[12])return;
+    if(event.code !== currentPlayer.shootCode)return;
     if(event.repeat)return;
     
     //punto di partenza laser 
-    let laserIdx = currentPlayer[1];
+    let laserIdx = currentPlayer.position;
     let laserIntv = null;
 
     let laserStep;
-    if(currentPlayer[0] === 'Player2'){
+    if(currentPlayer.name === 'Player2'){
         laserStep = -width;
-    }else if(currentPlayer[0] === 'Player1'){
+    }else if(currentPlayer.name === 'Player1'){
         laserStep = width;
     }
 
     function moveLaser(){
-        cells[laserIdx].classList.remove(currentPlayer[3]);
+        cells[laserIdx].classList.remove(currentPlayer.laserClassName);
         laserIdx = laserIdx + laserStep;
 
         //controllare se il laser è uscito dalla griglia
@@ -250,46 +283,46 @@ function shoot(event, currentPlayer, otherPlayer){
             clearInterval(laserIntv);
 
             //ripulire la cella e effetto esplosione
-            cells[laserIdx].classList.remove('alien', currentPlayer[3]);
+            cells[laserIdx].classList.remove('alien', currentPlayer.laser);
             cells[laserIdx].classList.add('boom');
             setTimeout(function(){
                 cells[laserIdx].classList.remove('boom');
             }, 200);
 
             //aggiornare il bonus
-            currentPlayer[6]--;
-            currentPlayer[7].innerText = currentPlayer[6];
+            currentPlayer.bonus--;
+            currentPlayer.bonusDisplay.innerText = currentPlayer.bonus;
             checkForBonus(currentPlayer);
 
             //trovare l'array dell'alieno e rimuoverlo
 
-            if(currentPlayer[8].includes(laserIdx)){
-                const killed = currentPlayer[8].indexOf(laserIdx);
-                currentPlayer[8].splice(killed, 1);
+            if(currentPlayer.aliensArray.includes(laserIdx)){
+                const killed = currentPlayer.aliensArray.indexOf(laserIdx);
+                currentPlayer.aliensArray.splice(killed, 1);
             }else{
-                const killed = otherPlayer[8].indexOf(laserIdx);
-                otherPlayer[8].splice(killed, 1);
+                const killed = otherPlayer.aliensArray.indexOf(laserIdx);
+                otherPlayer.aliensArray.splice(killed, 1);
             }
             return;
 
-        }else if(cells[laserIdx].classList.contains(otherPlayer[2])){
+        }else if(cells[laserIdx].classList.contains(otherPlayer.spaceshipClassName)){
             //abbiamo colpito l'avversario
             clearInterval(laserIntv);
 
             //aumentare la salute di current player
-            if(currentPlayer[4] < 100){
-                currentPlayer[4]++,
-                currentPlayer[5].innerText = currentPlayer[4];
+            if(currentPlayer.health < 100){
+                currentPlayer.health++,
+                currentPlayer.healthDisplay.innerText = currentPlayer.health;
             }
 
             //ridurre la salute dell'avversario
-            otherPlayer[4] -= 5;
-            otherPlayer[5].innerText = otherPlayer[4];
+            otherPlayer.health -= 5;
+            otherPlayer.healthDisplay.innerText = otherPlayer.health;
             checkPlayerHealth(otherPlayer);
             return;
         }
         
-        cells[laserIdx].classList.add(currentPlayer[3]);
+        cells[laserIdx].classList.add(currentPlayer.laserClassName);
     }
     
     laserIntv = setInterval(moveLaser, laserSpeed);
