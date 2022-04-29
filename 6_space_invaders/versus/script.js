@@ -25,7 +25,7 @@ let aliens2 = [];
 const player1 = ['Player1', redSpaceshipIdx, 'red-spaceship', 'red-laser', 100, health1Display, 50, bonus1Display, aliens1, 'Player 2', 'KeyA', 'KeyD', 'Space'];
 const player2 = ['Player2', whiteSpaceshipIdx, 'white-spaceship', 'green-laser', 100, health2Display, 50, bonus2Display, aliens2, 'Player 1', 'ArrowLeft', 'ArrowRight', 'ShiftRight']*/
 const player1 = {
-    name: 'Player1',
+    player: 'Player1',
     position: redSpaceshipIdx,
     spaceshipClassName: 'red-spaceship',
     laserClassName: 'red-laser',
@@ -40,7 +40,7 @@ const player1 = {
     shootCode: 'Space'
 }
 const player2 = {
-    name: 'Player2',
+    player: 'Player2',
     position: whiteSpaceshipIdx,
     spaceshipClassName: 'white-spaceship',
     laserClassName: 'green-laser',
@@ -259,9 +259,9 @@ function shoot(event, currentPlayer, otherPlayer){
     let laserIntv = null;
 
     let laserStep;
-    if(currentPlayer.name === 'Player2'){
+    if(currentPlayer.player === 'Player2'){
         laserStep = -width;
-    }else if(currentPlayer.name === 'Player1'){
+    }else if(currentPlayer.player === 'Player1'){
         laserStep = width;
     }
 
