@@ -52,7 +52,7 @@ function leftClickCell(event){
     return;
   }else{
     //la casella è libera ---> mostrare il numero
-    const number = findAlienNumber();
+    const number = findAlienNumber(this);
     let numberClass;
 
     switch(number){
@@ -106,9 +106,133 @@ function alienClicked(){
   }
 }
 
-function findAlienNumber(){
+function findAlienNumber(element){
   //DEVE RESTITUIRE IL NUMERO DEGLI ALIENI
-  return 5;
+  //l'indice dell'elemento su cui si va a lavorare
+  const index = cells.indexOf(element);
+
+  const leftEdge = index % width === 0;
+  const rightEdge = index % width === width - 1;
+  const topEdge = index < width;
+  const bottomEdge = index >= RxC - width;
+  const topLeftCorner = topEdge && leftEdge;
+  const bottomLeftCorner = bottomEdge && leftEdge;
+  const topRightCorner = topEdge && rightEdge;
+  const bottomRightCorner = bottomEdge && rightEdge;
+
+  //numero di bombe nelle celle adiacenti
+  let sum = 0;
+
+  //fare una funzione per ogni caso
+  if(topLeftCorner)sum = topLeftCornerCount(element);
+  else if(topRightCorner)sum = topRightCornerCount(element);
+  else if(bottomLeftCorner)sum = bottomLeftCornerCount(element);
+  else if(bottomRightCorner)sum = bottomRightCornerCount(element);
+  else if(leftEdge)sum = leftEdgeCount(element);
+  else if(rightEdge)sum = rightEdgeCount(element);
+  else if(topEdge)sum = topEdgeCount(element);
+  else if(bottomEdge)sum = bottomEdgeCount(element);
+  else{
+    sum = centerCellCount(element);
+  }
+
+  return sum;
+}
+
+//FUNZIONI PER IL CONTEGGIO DEGLI ALIENI
+
+function topLeftCornerCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width + 1))count++;
+  return count;
+}
+
+function topRightCornerCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width - 1))count++;
+  return count;
+}
+
+function bottomLeftCornerCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width + 1))count++;
+  return count;
+}
+
+function bottomRightCornerCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width - 1))count++;
+  return count;
+}
+
+function leftEdgeCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width + 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width + 1))count++;
+  return count;
+}
+
+function rightEdgeCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width - 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width - 1))count++;
+  return count;
+}
+ 
+function topEdgeCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width + 1))count++;
+  if(aliens.includes(index + width - 1))count++;
+  return count;
+}
+
+function bottomEdgeCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width + 1))count++;
+  if(aliens.includes(index - width - 1))count++;
+  return count;
+}
+
+function centerCellCount(element){
+  const index = cells.indexOf(element);
+  let count = 0;
+  if(aliens.includes(index + 1))count++;
+  if(aliens.includes(index - 1))count++;
+  if(aliens.includes(index + width))count++;
+  if(aliens.includes(index + width + 1))count++;
+  if(aliens.includes(index + width - 1))count++;
+  if(aliens.includes(index - width))count++;
+  if(aliens.includes(index - width + 1))count++;
+  if(aliens.includes(index - width - 1))count++;
+  return count;
 }
 
 //generare gli alieni
@@ -126,12 +250,12 @@ while(aliens.length < aliensCount){
   }
 }
 
-/*
+
 for (let i = 0; i < aliens.length; i++) {
   const cell = cells[aliens[i]];
   cell.classList.add('alien');
 }
-*/
+
 
 
 
