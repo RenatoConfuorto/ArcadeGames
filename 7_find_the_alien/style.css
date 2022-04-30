@@ -23,8 +23,80 @@
   font-size: 6px;
   text-align: center;
   line-height: var(--cell-size);
+  cursor: pointer;
 
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.pointer-none{
+  pointer-events: none;
+  background-color: #6666ec;
+  font-size: 10px;
+}
+
+.flag{
+  font-size: 0;
+  /* debug:  */
+  background-image: url('img/flag.png');
+}
+
+
+/* 0 */
+.empty{
+  font-size: 0;
+}
+/* 1 */
+.white{
+  color: white;
+}
+/* 2 */
+.green{
+  color: green;
+}
+/* 3 */
+.red{
+  color: red;
+}
+/* 4 */
+.darkblue{
+  color: darkblue
+}
+/* 5 */
+.darkred{
+  color: darkred;
+}
+/* 6 */
+.pink{
+  color: pink
+}
+/* 7 */
+.black{
+  color: black;
+}
+/* 8 */
+.yellow{
+  color: yellow;
+}
+
+
+
+
+.yellow{
+  color: yellow;
+}
+
+.black{
+  color: black;
+}
+
+.end-game{
+  background-color: red;
+}
+
+.alien{
+  font-size: 0;
+  /* debug:  */
+  background-image: url('img/alien.png')
 }
