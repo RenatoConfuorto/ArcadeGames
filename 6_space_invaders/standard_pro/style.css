@@ -1,5 +1,5 @@
 :root{
-    --cell-size: 39px;
+    --cell-size: 6vh;
     --grid-width: 21;
     --grid-height: 15;
 }
@@ -17,7 +17,7 @@
 .cell{
     width: var(--cell-size);
     height: var(--cell-size);
-    /* border: 1px solid white; */
+    border: 1px solid white;
     font-size: 8px;
 
     background-size: contain;
@@ -25,18 +25,23 @@
     background-position: center;
 }
 
-.spaceship{
-    background-image: url('img/spaceship.png');
-}
-
-.alien{
-    background-image: url('img/alien.png');
-}
 
 .boom{
     background-image: url('img/boom.png');
 }
 
-.laser{
+.laser-green{
+    background-image: url('img/laser-green.png');
+}
+
+.laser-red{
     background-image: url('img/laser.png');
+}
+
+.white-spaceship{
+    background-image: url('img/spaceship.png');
+}
+
+.red-spaceship{
+    background-image: url('img/spaceship-red.png')
 }
