@@ -1,0 +1,30 @@
+:root{
+  --grid-height: 40;
+  --grid-width: 25;
+  --cell-size: calc(95vh / var(--grid-height));
+}
+
+#grid{
+  width: calc(var(--grid-width) * var(--cell-size) + 4px);
+  height: calc(var(--grid-height) * var(--cell-size) + 4px);
+
+  border: 2px solid white;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.cell{
+  width: var(--cell-size);
+  height: var(--cell-size);
+
+  border: 1px solid black;
+  font-size: 6px;
+  text-align: center;
+  line-height: var(--cell-size);
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
