@@ -10,19 +10,20 @@ const levelDisplay = document.getElementById('level');
 
 // array 
 const cells = [];
-let aliens = [0, 2, 4, 6] //indici i partenzad nemici 
+let aliens = [] //indici i partenzad nemici 
 let aliensKilled = [];
 
 // movimento nemici 
 let step = 1;
 let direction = 'forward';
 let speed = 500;
+let shootChance;
 
 //punti
 let score = 0;
 scoreDisplay.innerText = score;
 //livello
-let level = 1;
+let level = 0;
 levelDisplay.innerText = level + '/10';
 
 let aliensMoveIntv = null;
@@ -32,7 +33,7 @@ let laserSpeed = 150;
 for(let i = 0; i < RxC; i++){
     const cell = document.createElement('div');
     cell.classList.add('cell');
-    cell.innerText = i; //TOGLIERE
+    // cell.innerText = i; //TOGLIERE
     cells.push(cell);
     grid.appendChild(cell);
 }
@@ -145,7 +146,7 @@ function moveAliens(){
         aliens[i] = aliens[i] + step;
         //stabilire casualmente se sparare
         const casualNbr = Math.random();
-        if(casualNbr < 0.25){
+        if(casualNbr < shootChance){
             alienShoot(aliens[i]);
         }
     }
@@ -153,6 +154,9 @@ function moveAliens(){
     checkForAlienWin();
     drawAliens();
 }
+
+//far partire il gioco
+levelUp();
 
 drawAliens();
 
@@ -210,6 +214,8 @@ function shoot(event){
             //salviamo quali alieni abbiamo ucciso
             const killed = aliens.indexOf(laserIdx);
             aliensKilled.push(killed);
+            //ricalcolare la possibilità dello sparo
+            shootChance = (0.5 / (aliens.length - aliensKilled.length));
 
             //+1 punto
             score++;

@@ -17,7 +17,7 @@
 .cell{
     width: var(--cell-size);
     height: var(--cell-size);
-    border: 1px solid white;
+    /* border: 1px solid white; */
     font-size: 8px;
 
     background-size: contain;
