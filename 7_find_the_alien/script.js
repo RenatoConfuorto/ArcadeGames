@@ -2,16 +2,18 @@ const grid = document.getElementById('grid');
 const aliensLeftDisplay = document.getElementById('aliens-left');
 
 const cells = [];
+const safeCells = [];
+
 
 //stampare le celle
-const width = 25;
-const height = 40;
+const width = 20; //15
+const height = 35; //25
 const RxC = width * height;
 
 for(let i = 0; i < RxC; i++){
   const cell = document.createElement('div');
   cell.classList.add('cell');
-  cell.innerText = i; //TOGLIERE
+  // cell.innerText = i; //TOGLIERE
   cells.push(cell);
   grid.appendChild(cell);
   //click sulla cella
@@ -23,7 +25,7 @@ for(let i = 0; i < RxC; i++){
 }
 
 function rightClick(element){
-  console.log('rightClick', cells.indexOf(element));
+  // console.log('rightClick', cells.indexOf(element));
   //inserire la bandiera
   const index = cells.indexOf(element);
   //aggiornare il contatore degli alieni rimanenti
@@ -42,7 +44,7 @@ function leftClickCell(event){
   const index = cells.indexOf(this);
   //impedire il click se c'è la bandiera
   if(cells[index].classList.contains('flag'))return;
-  console.log('leftClick', cells.indexOf(this));
+  // console.log('leftClick', cells.indexOf(this));
 
   //controllare se nella casella c'è un alieno
   if(aliens.includes(index)){
@@ -58,7 +60,8 @@ function leftClickCell(event){
     switch(number){
       case 0:
         numberClass = 'empty';
-        console.log('Mostrare le celle adiacenti');
+        // console.log('Mostrare le celle adiacenti');
+        showSurroundingCells(this);
       break;
 
       case 1 :
@@ -96,7 +99,15 @@ function leftClickCell(event){
 
     cells[index].innerText = number;
     cells[index].classList.add('pointer-none', numberClass);
+
+    //controllare se abbiamo vinto
+    if(checkForWin()){
+      showAlert('Human Wins');
+      return;
+    }
+
   }
+
 }
 
 function alienClicked(){
@@ -104,6 +115,44 @@ function alienClicked(){
   for(let i = 0; i < aliens.length; i++){
     cells[aliens[i]].classList.add('alien', 'end-game');
   }
+}
+
+function showSurroundingCells(element){
+  const index = cells.indexOf(element);
+  //la cella è vuota
+  //se la cella esiste scatenare un evento click
+  //controllare che non sia già stato scatenato l'evento e controllare se si è sui bordi
+  const leftEdge = index % width === 0;
+  const rightEdge = index % width === width - 1;
+  const topEdge = index < width;
+  const bottomEdge = index >= RxC - width;
+  const topLeftCorner = topEdge && leftEdge;
+  const bottomLeftCorner = bottomEdge && leftEdge;
+  const topRightCorner = topEdge && rightEdge;
+  const bottomRightCorner = bottomEdge && rightEdge;
+  console.log('cella con 0');
+  //ignorare queste celle in determinate posizioni
+  if(!rightEdge && !topRightCorner && !bottomRightCorner){
+    if(cells[index + 1] && !cells[index + 1].classList.contains('pointer-none'))cells[index + 1].click();
+  }
+  if(!leftEdge && !topLeftCorner && !bottomLeftCorner){
+    if(cells[index - 1] && !cells[index - 1].classList.contains('pointer-none'))cells[index - 1].click();
+  }
+  if(!leftEdge && ! bottomLeftCorner){
+    if(cells[index - width - 1] && !cells[index - width - 1].classList.contains('pointer-none'))cells[index - width - 1].click();
+  }
+  if(!rightEdge && !bottomRightCorner){
+    if(cells[index - width + 1] && !cells[index - width + 1].classList.contains('pointer-none'))cells[index - width + 1].click();
+  }
+  if(!leftEdge && !topLeftCorner){
+    if(cells[index + width - 1] && !cells[index + width - 1].classList.contains('pointer-none'))cells[index + width - 1].click();
+  }
+  if(!rightEdge && !topRightCorner){
+    if(cells[index + width + 1] && !cells[index + width + 1].classList.contains('pointer-none'))cells[index + width + 1].click();
+  }
+
+  if(cells[index + width] && !cells[index + width].classList.contains('pointer-none'))cells[index + width].click();
+  if(cells[index - width] && !cells[index - width].classList.contains('pointer-none'))cells[index - width].click();
 }
 
 function findAlienNumber(element){
@@ -251,12 +300,33 @@ while(aliens.length < aliensCount){
 }
 
 
-for (let i = 0; i < aliens.length; i++) {
-  const cell = cells[aliens[i]];
-  cell.classList.add('alien');
+// for (let i = 0; i < aliens.length; i++) {
+//   const cell = cells[aliens[i]];
+//   cell.classList.add('alien');
+// }
+
+//CONTROLLARE LA VITTORIA
+//il giocatore vince se clicca tutte le celle senza alieni
+
+//creare un array con le celle sicure
+for(let i = 0; i < RxC; i++){
+  if(!aliens.includes(i)){
+    safeCells.push(cells[i]);
+  }
 }
+function checkForWin(){
+  //controllare che su tutte le celle ci sia la class pointer-none
+  let count = 0;
+  for(let i = 0; i <safeCells.length; i++){
+    if(safeCells[i].classList.contains('pointer-none')){
+      count++;
+    }
+  }
 
-
+  if(count === safeCells.length)return true; //tutte le celle libere sono state cliccate
+  return false;
+}
+console.log(safeCells);
 
 
 

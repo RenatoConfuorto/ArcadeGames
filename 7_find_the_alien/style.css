@@ -1,6 +1,6 @@
 :root{
-  --grid-height: 40;
-  --grid-width: 25;
+  --grid-width: 20;
+  --grid-height: 35;
   --cell-size: calc(95vh / var(--grid-height));
 }
 
@@ -37,8 +37,6 @@
 }
 
 .flag{
-  font-size: 0;
-  /* debug:  */
   background-image: url('img/flag.png');
 }
 
@@ -53,7 +51,7 @@
 }
 /* 2 */
 .green{
-  color: green;
+  color: darkgreen;
 }
 /* 3 */
 .red{
@@ -96,7 +94,5 @@
 }
 
 .alien{
-  font-size: 0;
-  /* debug:  */
   background-image: url('img/alien.png')
 }
