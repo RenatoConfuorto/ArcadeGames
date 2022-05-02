@@ -4,6 +4,7 @@
 }
 
 #grid{
+  position: relative;
   width: calc((var(--cell-size) * 5) + (var(--cell-gutter) * 4));
   height: calc((var(--cell-size) * 5) + (var(--cell-gutter) * 4));
 
@@ -14,7 +15,7 @@
   align-content: space-between;
 }
 
-#countdown{
+#countdown-banner{
   position: absolute;
   top: 0;
   left: 0;
@@ -26,10 +27,20 @@
   align-items: center;
 }
 
-#countdown h3{
+#countdown-banner h3{
   font-size: 1.5em;
   padding: 15px 25px;
   background-color: var(--accent-color);
+}
+
+#action-btn{
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: 'press Start 2P';
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /*rimuovere le frecce da input number*/
@@ -64,3 +75,6 @@ input[type=number] {
   font-size: 2em;
 }
 
+.wrong{
+  color: red;
+}

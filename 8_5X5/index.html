@@ -15,16 +15,18 @@
         <div class="game-area">
             <div id="grid">
                 <!-- <input type="number" class="cell"> -->
+                <div id="countdown-banner">
+                    <h3>Partenza fra: <span id="timer-countdown"></span></h3>
+                  </div>
             </div>
-            <div id="countdown">
-              <h3>Partenza fra: <span id="timer-countdown"></span></h3>
-            </div>
+            
         </div>
         <div class="game-data">
             <h1>5X5</h1>
-            <p>Memorizza la posizione dei numeri entro due minuti. Quando il tempo è scaduto hai due minuti a disposizione per inserire i numeri nella posizione corretta.</p>
-            <h3>Tempo rimanente</h3>
+            <p>Memorizza la posizione dei numeri entro due minuti. Quando il tempo è scaduto hai due minuti a disposizione per inserire i numeri nella posizione corretta. Premi 'Invio' per confermare il valore.</p>
+            <h3>Tempo rimanente:</h3>
             <h3 id="timer-display"></h3>
+            <button id="action-btn">Inizia Ora!</button>
         </div>
     </div>
     <script src="../common/script.js"></script>
